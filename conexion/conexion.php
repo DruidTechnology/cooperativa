@@ -10,4 +10,6 @@
         die("Conexion Fallida: ".$conexion->connect_error);
 
     }
+
+    
 ?>

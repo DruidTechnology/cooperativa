@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="footer-copy-right">
-                            <p>Todos los derechos Reservados UES-FMP © 2019.</p>
+                            <p>Todos los derechos Reservados  © 2020.</p>
                         </div>
                     </div>
                 </div>
