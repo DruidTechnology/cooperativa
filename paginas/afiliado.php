@@ -8,7 +8,6 @@
         <form action="/SACO/" enctype="multipart/form-data" method="POST">
         <?php
     
-
         //Declaracion de todas las variables
         $nombre_a="";
         $apellido_a="";
@@ -24,11 +23,18 @@
         $nacionalidad_a="";
         $profesion_a="";
         $contacto_a="";
+        $dateNow_a = "";
         $nombre_b="";
         $parentesco_b="";
         $porcentaje_b="";
         $contacto_b="";
         
+        
+        
+        $mesPago_p = "";
+        $annioPago_p = "";
+        $pagado_p = "";
+
 
         if(isset($_POST['nombre_a'])){
            // echo "<script type=\"text/javascript\">alert(\"Fotos guardadas\");</script>"; 
@@ -47,11 +53,15 @@
             $nacionalidad_a=$_POST['nacionalidad_a'];
             $profesion_a=$_POST['profesion_a'];
             $contacto_a=$_POST['contacto_a'];
+            $dateNow_a = date("d/m/Y");
             $nombre_b=$_POST['nombre_b'];
             $parentesco_b=$_POST['parentesco_b'];
             $porcentaje_b=$_POST['porcentaje_b'];
             $contacto_b=$_POST['contacto_b'];
-
+                                    
+            $mesPago_p = date("F");
+            $annioPago_p = date("Y");
+            $pagado_p = 1;
             //limite de archivo
             $limite_kb = 200;
 
@@ -138,6 +148,23 @@
                 array_push($campo, "El Campo Contacto Beneficiario No Puede Estar Vacio.");
             }
 
+            if ($dateNow_a == "") {
+                # code...
+                array_push($campo, "El Campo Fecha de Registro No Puede Estar Vacio.");
+            }
+
+            if ($mesPago_p == "") {
+                # code...
+                array_push($campo, "El Campo Mes de Pago No Puede Estar Vacio.");
+            }
+
+            if ($annioPago_p == "") {
+                # code...
+                array_push($campo, "El Campo Año de Pago No Puede Estar Vacio.");
+            }
+
+            
+
             //Mostrar Errores
             if (count($campo)>0) {
                 # code...
@@ -155,15 +182,18 @@
                 //echo "<script type=\"text/javascript\">alert(\"".$fecha_a['1']."\");</script>"; 
                 $sql="INSERT INTO afiliados(nombreAfiliado,apellidosAfiliado,duiAfiliado,NitAfiliado,fechaNacimientoAfiliado,
                 estadoCivilAfiliado,cargoAfiliado,sueldoAfiliado,direccionAfiliado,nacionalidadAfiliado,profesionAfiliado,
-                contactoAfiliado,estadoAfiliado)
+                contactoAfiliado,estadoAfiliado,fechaIngreso)
                 VALUES('$nombre_a','$apellido_a','$dui_a','$nit_a','$fecha_a','$estadoCivil_a','$cargo_a','$sueldo_a','$direccion_a','$nacionalidad_a',
-                '$profesion_a','$contacto_a','1');";
+                '$profesion_a','$contacto_a','1','$dateNow_a');";
+                
+                
 
                 if ($conexion->query($sql) === TRUE) {
                     # code...
                     //$conexion->close();
-                    $id_insert = $conexion->insert_id;
                     
+                    $id_insert = $conexion->insert_id;
+
                         # code...
                         $ruta ='files/'.$id_insert.'/';
                         $archivo1 = $ruta.$_FILES['fotoDui_a']['name'];
@@ -180,10 +210,25 @@
 
                             if ($resultado1 && $resultado2) {
                                 # code...
+                                
                                 $sqlB =" INSERT INTO beneficiario(nombreBeneficiario,parentesco,porcentaje,contactoBeneficiario,id_Afiliado)
                                 VALUES('$nombre_b','$parentesco_b','$porcentaje_b','$contacto_b','$id_insert');";
-
-                                if ($conexion->query($sqlB) === TRUE) {
+                                /*
+                                $sqlCA = "INSERT INTO cuotaAfiliado(fechaIngreso,montoCuota,mesPago,annioPago,pagado,id_Afiliado) VALUES('$dateNow_ca','$montoCouta_ca','$mesPago_ca','$annioPago_ca','$pagado_ca','$id_insert')";
+                                $dateparse = date_parse($mesPago_ca);
+                                #crea facturas de 12 meses
+                              
+                                for ($i=($dateparse['month'] +1); $i <= 12 ; $i++) { 
+                                    # code...
+                                    $temp_month  = date("F", mktime(0, 0, 0, $i, 10));
+                                    $sqlCA = $sqlCA . "," . "('$dateNow_ca','$montoCouta_ca','$temp_month','$annioPago_ca','$pagado_ca','$id_insert')" ;    
+                                }
+                                $sqlCA = $sqlCA . ";";    
+                                  */
+                                #crea el primer pago
+                                $sqlP = "INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota) VALUES('$mesPago_p','$annioPago_p','$pagado_p','$id_insert',1);";  
+                                  
+                                if ($conexion->query($sqlB) === TRUE && $conexion->query($sqlP) === TRUE) {
                                     # code...
                                     $nombre_a="";
                                     $apellido_a="";

@@ -30,6 +30,7 @@
             profesionAfiliado VARCHAR(50) NOT NULL,
             contactoAfiliado VARCHAR(50) NOT NULL,
             estadoAfiliado BOOLEAN NOT NULL,
+            fechaIngreso VARCHAR(10) NOT NULL,
             timestamp TIMESTAMP
         );";
         $sqlTB="CREATE TABLE beneficiario(
@@ -48,12 +49,32 @@
             tasaInteres INT(10) NOT NULL,
             plazo VARCHAR(30) NOT NULL,
             pagoMensual FLOAT(50) NOT NULL,
+            id_Afiliado INT(11),         
+            timestamp TIMESTAMP
+        );";
+        $sqlTCA="CREATE TABLE cuota(
+            id INT(11) AUTO_INCREMENT PRIMARY KEY,
+            montoCuota INT(25) NOT NULL,            
+            timestamp TIMESTAMP
+        );";
+        $sqlTP="CREATE TABLE pago(
+            id INT(11) AUTO_INCREMENT PRIMARY KEY, 
+            mesPago VARCHAR(10) NOT NULL,
+            annioPago VARCHAR(10) NOT NULL,
+            pagado BOOLEAN,
             id_Afiliado INT(11),
+            id_cuota INT(11),
             timestamp TIMESTAMP
         );";
 
-        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE) {
+        $sqlICA ="INSERT INTO cuota(montoCuota) VALUES(5);";
+        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE) {
             # code...
+            if($conexionT->query($sqlICA) === TRUE){
+                #echo "Insert correcto";
+            }else{
+                #echo "NO ";
+            }
             echo "Tabla Creada exitosamente.";
         }else{
             die("Error al Crear Base de Datos. ". $conexionT->error);
