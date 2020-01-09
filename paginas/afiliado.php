@@ -5,6 +5,7 @@
             <li class="active"><a href="#description">Registro de Afiliados</a></li>
             
         </ul>
+        
         <form action="/SACO/" enctype="multipart/form-data" method="POST">
         <?php
     
@@ -67,7 +68,15 @@
 
             //Arreglo para validacion
             $campo= array();
+            
+            $numeroBeneficiarios = sizeof($nombre_b);
+            
+            if ( !((sizeof($nombre_b) == sizeof($contacto_b)) && (sizeof($contacto_b) ==sizeof($porcentaje_b)) && (sizeof($porcentaje_b) == sizeof($parentesco_b)))) {
 
+                # code...
+                array_push($campo, "El Beneficiario No Puede Estar Vacio.");
+            }
+            
             if ($nombre_a == "") {
                 # code...
                 array_push($campo, "El Campo Nombre No Puede Estar Vacio.");
@@ -131,22 +140,67 @@
                 # code...
                 array_push($campo, "El Campo Contacto No Puede Estar Vacio.");
             }
-            if ($nombre_b == "") {
-                # code...
-                array_push($campo, "El Campo Nombre Beneficiario No Puede Estar Vacio.");
-            }
-            if ($parentesco_b == "") {
-                # code...
-                array_push($campo, "El Campo Parentesco Beneficiario No Puede Estar Vacio.");
-            }
-            if ($porcentaje_b== "") {
-                # code...
-                array_push($campo, "El Campo Procentaje Beneficiario No Puede Estar Vacio.");
-            }
-            if ($contacto_b == "") {
-                # code...
-                array_push($campo, "El Campo Contacto Beneficiario No Puede Estar Vacio.");
-            }
+                
+                foreach( $nombre_b as $key) {
+                    
+                    if ($key == "") {
+                        # code...
+                        array_push($campo, "El Campo Nombre Beneficiario No Puede Estar Vacio.");
+                    }
+                    
+                }
+                if ($nombre_b == "") {
+                    # code...
+                    array_push($campo, "El Campo Nombre Beneficiario No Puede Estar Vacio.");
+                }
+                foreach( $parentesco_b as $key) {
+                    
+                    if ($key=="") {
+                        # code...
+                        array_push($campo, "El Campo Parentesco Beneficiario No Puede Estar Vacio.");
+                    }
+                    
+                }
+                if ($parentesco_b == "") {
+                    # code...
+                    array_push($campo, "El Campo Parentesco Beneficiario No Puede Estar Vacio.");
+                }
+                $contador_porcentaje = 0;
+                foreach( $porcentaje_b as $key) {
+                    
+                    if ($key == "") {
+                        # code...
+                        array_push($campo, "El Campo Procentaje Beneficiario No Puede Estar Vacio.");
+                    }else{
+                        $contador_porcentaje += $key;
+                    }
+                    
+                }
+                if ($contador_porcentaje>1000) {
+                    # code...
+                    array_push($campo, "El Campo Procentaje Beneficiario No Puede Estar Vacio.");
+
+                }
+                
+                
+                if ($porcentaje_b== "") {
+                    # code...
+                    array_push($campo, "El Campo Procentaje Beneficiario No Puede Estar Vacio.");
+                }
+                foreach( $contacto_b as $key) {
+                    
+                    if ($key=="") {
+                        # code...
+                        array_push($campo, "El Campo Contacto Beneficiario No Puede Estar Vacio.");
+                    }
+                    
+                    
+                }
+                if ($contacto_b == "") {
+                    # code...
+                    array_push($campo, "El Campo Contacto Beneficiario No Puede Estar Vacio.");
+                }
+
 
             if ($dateNow_a == "") {
                 # code...
@@ -212,7 +266,13 @@
                                 # code...
                                 
                                 $sqlB =" INSERT INTO beneficiario(nombreBeneficiario,parentesco,porcentaje,contactoBeneficiario,id_Afiliado)
-                                VALUES('$nombre_b','$parentesco_b','$porcentaje_b','$contacto_b','$id_insert');";
+                                VALUES('$nombre_b[0]','$parentesco_b[0]','$porcentaje_b[0]','$contacto_b[0]','$id_insert')";
+
+                                for($i = 1;$i <$numeroBeneficiarios;$i++){
+                                    $sqlB = $sqlB . "," . "('$nombre_b[$i]','$parentesco_b[$i]','$porcentaje_b[$i]','$contacto_b[$i]','$id_insert')" ;    
+
+                                }
+                                $sqlB = $sqlB . ";";
                                 /*
                                 $sqlCA = "INSERT INTO cuotaAfiliado(fechaIngreso,montoCuota,mesPago,annioPago,pagado,id_Afiliado) VALUES('$dateNow_ca','$montoCouta_ca','$mesPago_ca','$annioPago_ca','$pagado_ca','$id_insert')";
                                 $dateparse = date_parse($mesPago_ca);
@@ -278,6 +338,7 @@
             
         }
         ?>
+        
         <div id="myTabContent" class="tab-content custom-product-edit">
             <div class="product-tab-list tab-pane fade active in" id="description">
                 <div class="row">
@@ -467,32 +528,50 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="devit-card-custom">
-                                        <div class="form-group">
-                                            <label>Nombre Beneficiario</label>
-                                            <input name="nombre_b" id="nombre_b" type="text" class="form-control" name="nombreBeneficiario_a"
-                                                placeholder="Escriba Nombre" value="<?php echo $nombre_b ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Parentesco</label>
-                                            <input name="parentesco_b" id="parentesco_b" type="text" class="form-control"
-                                                placeholder="Escriba el Parentesco" value="<?php echo $parentesco_b ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Porcentaje</label>
-                                            <div class="input-mark-inner mg-b-22">
-                                                <input name="porcentaje_b" id="porcentaje_b" type="text" class="form-control" data-mask="999 %"
-                                                    placeholder="" value="<?php echo $porcentaje_b ?>">
-                                                <span class="help-block">99 %</span>
+                                        <div id="benetgroup" class="benetgroup">
+                                            <!-- 
+                                            <div id="benet1" class="beneficiario">
+                                                <div class="form-group">
+                                                    <label>Nombre Beneficiario</label>
+                                                    <input name="nombre_b[]"  type="text" class="form-control" name="nombreBeneficiario_a"
+                                                        placeholder="Escriba Nombre" value="<?php echo $nombre_b ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Parentesco</label>
+                                                    <input name="parentesco_b[]"  type="text" class="form-control"
+                                                        placeholder="Escriba el Parentesco" value="<?php echo $parentesco_b ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Porcentaje</label>
+                                                    <div class="input-mark-inner mg-b-22">
+                                                        <input name="porcentaje_b[]"  type="text" class="form-control" data-mask="999 %"
+                                                            placeholder="" value="<?php echo $porcentaje_b ?>">
+                                                        <span class="help-block">99 %</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Numero de Contacto</label>
+                                                    <div class="input-mark-inner mg-b-22">
+                                                        <input name="contacto_b[]" type="text" class="form-control" data-mask="9999-9999"
+                                                            placeholder="" value="<?php echo $contacto_b ?>">
+                                                        <span class="help-block">9999-9999</span>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            -->
+                                            
                                         </div>
-                                        <div class="form-group">
-                                            <label>Numero de Contacto</label>
-                                            <div class="input-mark-inner mg-b-22">
-                                                <input name="contacto_b" type="text" class="form-control" data-mask="9999-9999"
-                                                    placeholder="" value="<?php echo $contacto_b ?>">
-                                                <span class="help-block">9999-9999</span>
+                                        <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div >
+                                                    <button class="btn btn-custon-rounded-four btn-warning" id="addB" type="button" onclick="createDivs()">AGREGAR BENEFICIARIO</button> 
+
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <br>
+                                        
+
                                         <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="payment-adress" id="myTabedu1">
@@ -529,3 +608,135 @@
     </div>
 </div>
 </div>
+
+<script type="text/javascript" >
+           
+        var array_nombre_b =<?php echo json_encode($nombre_b);?>;
+        var array_parentesco_b =<?php echo json_encode($parentesco_b);?>;
+        var array_porcentaje_b =<?php echo json_encode($porcentaje_b);?>;
+        var array_contacto_b =<?php echo json_encode($contacto_b);?>;
+        function createDivs() {
+            const div = document.createElement('div');
+
+            div.className = 'row';
+            div.innerHTML = `
+                    <div class="beneficiario">
+                    <div class="form-group">
+                        <label>Nombre Beneficiario</label>
+                        <input name="nombre_b[]"  type="text" class="form-control" name="nombreBeneficiario_a"
+                            placeholder="Escriba Nombre" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Parentesco</label>
+                        <input name="parentesco_b[]"  type="text" class="form-control"
+                            placeholder="Escriba el Parentesco" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Porcentaje</label>
+                        <div class="input-mark-inner mg-b-22">
+                            <input name="porcentaje_b[]" type="text" oninput="percent(this.value)" class="form-control" data-mask="9?99 %"
+                                placeholder="" value="">
+                            <span class="help-block">99 %</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Numero de Contacto</label>
+                        <div class="input-mark-inner mg-b-22">
+                            <input name="contacto_b[]" type="text" class="form-control" data-mask="9999-9999"
+                                placeholder="" value="">
+                            <span class="help-block">9999-9999</span>
+                        </div>
+                        <button type="button" class="delethis btn btn-custon-rounded-four btn-danger">Eliminar</button>
+                    </div>
+                    </div>
+        `;
+            
+        
+            
+            
+            document.getElementById("benetgroup").appendChild(div);  
+            deleteBenef()
+        }
+        function percent(a) {
+           console.log(a);
+           
+            
+        }
+        function createB() {
+             
+            var size = <?php echo count($nombre_b)?>  
+            console.log(size);
+            if (size == 0) {
+                createDivs();
+            }else{
+                for (let index = 0; index < size; index++) {
+                createDivs();
+                }
+            }
+
+        }
+        function fillvalue(){
+            var matches = document.querySelectorAll(".beneficiario");
+            
+            for (i = 0; i < matches.length; ++i) {
+               
+               if (array_nombre_b[i] == null) {
+                matches[i].querySelectorAll("input[name='nombre_b[]']")[0].value = "";   
+                }else{
+                    matches[i].querySelectorAll("input[name='nombre_b[]']")[0].value = array_nombre_b[i];
+                }
+
+                if (array_parentesco_b[i] == null) {
+                    matches[i].querySelectorAll("input[name='parentesco_b[]']")[0].value = "";   
+                }else{
+                    matches[i].querySelectorAll("input[name='parentesco_b[]']")[0].value = array_parentesco_b[i];
+                }
+                
+                if (array_porcentaje_b[i] == null) {
+                    matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value = "";   
+                }else{
+                    matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value = array_porcentaje_b[i];
+                }
+                if (array_contacto_b[i] == null) {
+                    matches[i].querySelectorAll("input[name='contacto_b[]']")[0].value = "";   
+                }else{
+                    matches[i].querySelectorAll("input[name='contacto_b[]']")[0].value = array_contacto_b[i];
+                }
+               
+                
+            }
+            
+            
+        }
+        function deleteBenef(){
+            var matches = document.querySelectorAll(".delethis");
+            
+            for (i = 0; i < matches.length; ++i) {
+                matches[i].onclick = function() {
+               
+                var btns = document.querySelectorAll(".delethis");
+                
+                if(btns.length <= 1){
+
+                }else{                        
+                    this.parentElement.parentElement.remove();    
+          
+                }   
+       
+               
+                };
+                }
+        }
+        function setup(){
+            createB();
+            deleteBenef();
+            fillvalue();
+        }
+        window.onload = setup;
+
+        
+        
+        
+
+
+</script>
