@@ -3,7 +3,6 @@
         if (isset($_GET['action']) && $_GET['action'] == 'Pagar') {
             # code...
             $id = $_GET['id'];
-
             $sql ="UPDATE afiliados SET estadoAfiliado = 0 WHERE id = $id";
             
             if ($conexion->query($sql) === TRUE) {
@@ -18,21 +17,42 @@
         }
         
         
-        if (isset($_POST['test']) ) {
+        if (isset($_POST['idAfiliado']) ) {
             $meses = "";
-            $meses=$_POST['array'];
+            $pago=  $_POST['totalPago'];
+            $pagos = array();
+            $meses=$_POST['selectedMeses'];
+            $cuota = 5;
+            
             $numero_meses = sizeof($meses);
             # code...
-            $id_a = $_POST['test'];
-            $checkear_meses = 1;
 
-            for ($i=0; $i < $numero_meses ; $i++) { 
+            $id_a = $_POST['idAfiliado'];
+            $checkear_meses = 1;
+            $todays_date = date("Y-m-d");
+            $lastPayment  = "";
+
+            for ($i=0; $i < $numero_meses ; $i++) {
+                $mes_acutal = strtotime($meses[$i]);
+               
+                if (date("Y-m-d", strtotime("+1 month +15 days",$mes_acutal)) < $todays_date ) {
+                    # code...
+                   
+                    array_push($pagos,$cuota + $cuota*0.07);
+                     
+                }else{
+                   
+                    array_push($pagos,$cuota);
+                    
+                }
               
                 if ($meses[$i+1] != "") {
                     # code...                        
                     $mes_acutal = strtotime($meses[$i]);
                     $mes_siguiente = strtotime($meses[$i+1]);
+                    
                     if (date("Y-m-d", strtotime("+1 month",$mes_acutal))  == date('Y-m-d',$mes_siguiente)) {
+                        
                         # code...
                         $checkear_meses =1;
                     }
@@ -43,7 +63,15 @@
          
                 }
             }
-
+            $sum_pagos = array_sum($pagos);
+            $sum_pagos2 =  strval( $sum_pagos);
+           $pago2 =  strval( $pago);
+            
+            if ( $sum_pagos2 != $pago2 ) {
+                $checkear_meses = 0;
+                
+            }
+  
             
 
             if ($checkear_meses == 1) {
@@ -151,9 +179,13 @@
                                         <tbody>
                                             <?php
                                             $sql="SELECT a.*  FROM afiliados a LEFT JOIN pago p ON p.id_afiliado = a.id WHERE
-                                            DATEDIFF(CURRENT_DATE(),IFNULL((SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id) , STR_TO_DATE(CONCAT(a.fechaIngreso),
-                                            '%m/%d/%Y'))) <45  
-                                            group by a.id;";
+                                            DATE_ADD(
+                                             IFNULL(
+                                                 (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
+                                                 , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +1 MONTH ) + INTERVAL 15 DAY 
+                                            
+                                             >=  CURRENT_DATE()
+                                                                                group by a.id;";
                                             
                                             $resultado = $conexion->query($sql);
                                             
@@ -245,10 +277,19 @@
                                         <tbody>
                                             <?php
                                             $sql ="SELECT a.*  FROM afiliados a LEFT JOIN pago p ON p.id_afiliado = a.id WHERE
-                                            DATEDIFF(CURRENT_DATE(),IFNULL((SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id) , STR_TO_DATE(CONCAT(a.fechaIngreso),
-                                            '%m/%d/%Y'))) BETWEEN 45 AND 365  
-                                            group by a.id;
-                                            ";
+                                            DATE_ADD(
+                                             IFNULL(
+                                                 (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
+                                                 , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +1 MONTH ) + INTERVAL 15 DAY 
+                                            
+                                             <  CURRENT_DATE() AND 
+                                             DATE_ADD(
+                                             IFNULL(
+                                                 (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
+                                                 , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +1 YEAR ) 
+                                             
+                                             >= CURRENT_DATE()
+                                                                                group by a.id;";
                                             $resultado = $conexion->query($sql);
 
                                             if ($resultado->num_rows > 0) {
@@ -338,10 +379,13 @@
                                         <tbody>
                                             <?php
                                             $sql ="SELECT a.*  FROM afiliados a LEFT JOIN pago p ON p.id_afiliado = a.id WHERE
-                                            DATEDIFF(CURRENT_DATE(),IFNULL((SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id) , STR_TO_DATE(CONCAT(a.fechaIngreso),
-                                            '%m/%d/%Y'))) > 365  
-                                            group by a.id;
-                                            ";
+                                            DATE_ADD(
+                                            IFNULL(
+                                                (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
+                                                , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +1 YEAR ) 
+                                            
+                                            < CURRENT_DATE()
+                                                                               group by a.id;";
                                             $resultado = $conexion->query($sql);
 
                                             if ($resultado->num_rows > 0) {
@@ -402,15 +446,14 @@
 </div>    
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="modal_id_aa" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   
   <div class="modal-dialog" role="document">
 
                                             
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal_id_a">Pago</h5>
-        
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">PAGO</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -419,11 +462,11 @@
         <form  action="/SACO/pagocuotas.php" enctype="multipart/form-data" method="POST">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Cliente ID:</label>
-            <input type="text" name="test" class="form-control" value="hola"id="modalte" readonly>
+            <input type="text" name="idAfiliado" class="form-control" value=""id="modalte" readonly>
           </div>
           <div class="form-group">
                 
-                <select id="select_meses" onchange="validateSelects()" name="array[]" class="form-control" multiple>
+                <select id="select_meses" onchange="validateSelects()" name="selectedMeses[]" class="form-control" multiple>
                 
                 </select>
           </div>
@@ -432,6 +475,7 @@
           <div class="modal-footer">
         <h4>TOTAL</h4>
         <h3 id = "totalPago2">0</h3>
+        <input type="hidden" name="totalPago" id="totalPago" value="0"> 
         
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button type="submit" class="btn btn-primary">Pagar</button>
@@ -446,25 +490,23 @@
     var array_pagos_monto = [];
     function calcPagos(fecha) {
         var nowss = new Date();
-        
-  
-        
+
             if (fecha) {
                 var check_mora_date = new Date(fecha);
                     cuota = 5;
                     check_mora_date.setDate(check_mora_date.getDate() + 15);
                     check_mora_date.setMonth(check_mora_date.getMonth() + 1);
                    // console.log(check_mora_date);
-                    console.log(nowss);
+                  //  console.log(nowss);
                     if(check_mora_date < nowss){
                         array_pagos_monto.push(cuota + cuota*0.07);
                     }else{
                         array_pagos_monto.push(cuota);
                     }
 
-
             }                    
     }
+
     function validateSelects() {
         var selecteds =[];
         var lst;
@@ -478,13 +520,15 @@
         for (let i = 0; i <= lst ; i++) {
             selecteds[i].selected = true;
             total += array_pagos_monto[i];
+            console.log(array_pagos_monto);
+            
             total =Math.round(total * 100) / 100 
             
         }
         
         h3_pago = document.getElementById("totalPago2");
         
-        
+        document.getElementById("totalPago").value = total;
         h3_pago.innerHTML = total;
   
     }
@@ -513,23 +557,30 @@ function countmeses(fecthmeses,fecha_act) {
     fecha_iniciopagos.setMonth(fecha_activacion.getMonth()+1);
     fecha_iniciopagos.setDate(15);
     var now= new Date();
+    console.log(now);
+    console.log(fecha_iniciopagos);
+    
+    
     let mesesp = [];
     var contmes = fecha_iniciopagos.getMonth();
 
     now.setDate(16);
     
     while (fecha_iniciopagos < now) {
-        if (contmes > 12) {
-            contmes = 1;
+        if (contmes > 11) {
+            contmes = 0;
         }
         
          temp.annio =fecha_iniciopagos.getFullYear()  // property_# may be an identifier...
                      temp.mes=fecha_iniciopagos.getMonth()  // or a number...
                         temp.day=15
-                    
+            
+            
              contmes++;
-             fecha_iniciopagos.setMonth(contmes);     
-        
+             fecha_iniciopagos.setMonth(fecha_iniciopagos.getMonth()+1);     
+             console.log(contmes);
+             
+             console.log(fecha_iniciopagos);
         let push = {
             annio: temp.annio,
             mes: temp.mes,
@@ -542,10 +593,7 @@ function countmeses(fecthmeses,fecha_act) {
 
     for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < mesesp.length; j++) {
-          
-            
-            
-            
+         
             if (JSON.stringify(mesesp[j]) === JSON.stringify(array[i]) ) {
                 mesesp.splice(j, 1);
             }
@@ -558,10 +606,6 @@ function countmeses(fecthmeses,fecha_act) {
     return mesesp;
     
 }
-
-
-
-
 
 function fill(id){
     
@@ -587,18 +631,20 @@ function getMesesP(id) {
                 return response.text();
             })
             .then(function (body) {
-                console.log(body);
+                
                 
                 var pagos = JSON.parse(body);
+                console.log(pagos);
                 
-                
-         
+
                 var mesesapagar = countmeses(pagos,fecha_activacion_a);
               
                 var sel = document.getElementById('select_meses');
                 sel.innerHTML = '';
+                console.log(mesesapagar);
+                
                 for (let index = 0; index < mesesapagar.length; index++) {
-                  //  console.log(mesesapagar[index]);
+                   
                     
                     let annio = mesesapagar[index].annio;
                     let mes = mesesapagar[index].mes;
@@ -609,20 +655,17 @@ function getMesesP(id) {
                     
                     
                     var opt = document.createElement('option');
-
-             
+          
                     opt.appendChild( document.createTextNode(`${month}/${annio}`) );
-
-                  
+        
                     opt.value = `${mes+1}/15/${annio}`;
                     sel.appendChild(opt);  
              
                 
                 
             }
-            console.log(array_pagos_monto);
-            
-            
+       
+
         });
        
     });

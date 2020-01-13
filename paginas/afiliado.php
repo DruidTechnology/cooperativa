@@ -70,11 +70,15 @@
             $campo= array();
             
             $numeroBeneficiarios = sizeof($nombre_b);
+            if ($numeroBeneficiarios<1) {
+                # code...
+                array_push($campo, "Por favor inscribir al menos un beneficiario");
+            }
             
             if ( !((sizeof($nombre_b) == sizeof($contacto_b)) && (sizeof($contacto_b) ==sizeof($porcentaje_b)) && (sizeof($porcentaje_b) == sizeof($parentesco_b)))) {
 
                 # code...
-                array_push($campo, "El Beneficiario No Puede Estar Vacio.");
+                array_push($campo, "Los campos de los Beneficiarios no Pueden Estar Vacios.");
             }
             
             if ($nombre_a == "") {
