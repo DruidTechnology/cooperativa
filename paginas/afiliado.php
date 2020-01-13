@@ -54,7 +54,7 @@
             $nacionalidad_a=$_POST['nacionalidad_a'];
             $profesion_a=$_POST['profesion_a'];
             $contacto_a=$_POST['contacto_a'];
-            $dateNow_a = date("d/m/Y");
+            $dateNow_a = date("m/d/Y");
             $nombre_b=$_POST['nombre_b'];
             $parentesco_b=$_POST['parentesco_b'];
             $porcentaje_b=$_POST['porcentaje_b'];

@@ -15,6 +15,7 @@
                             <ul class="submenu-angle" aria-expanded="true">
                                 <li><a title="Registro" href="/SACO/"><span class="mini-sub-pro">Registro</span></a></li>
                                 <li><a title="Listado" href="listaAfiliados.php"><span class="mini-sub-pro">Listado</span></a></li>
+                                <li><a title="pago" href="pagoCuotas.php"><span class="mini-sub-pro">Pago</span></a></li>
                                 <li><a title="Listado" href="#"><span class="mini-sub-pro">Reporte</span></a></li>
                             </ul>
                         </li>

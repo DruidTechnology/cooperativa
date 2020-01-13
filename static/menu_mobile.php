@@ -9,6 +9,7 @@
                                             <ul class="collapse dropdown-header-top">
                                                 <li><a href="#">Registro</a></li>
                                                 <li><a href="#">Listado</a></li>
+                                                <li><a href="#">Pago</a></li>
                                                 <li><a href="#">Reporte</a></li>
                                             </ul>
                                         </li>

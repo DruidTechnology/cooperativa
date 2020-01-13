@@ -68,7 +68,8 @@
         );";
 
         $sqlICA ="INSERT INTO cuota(montoCuota) VALUES(5);";
-        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE) {
+        $sqlAlter = "ALTER TABLE `pago` ADD UNIQUE `unique_index`(`mespago`, `anniopago`, `id_afiliado`);";
+        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE) {
             # code...
             if($conexionT->query($sqlICA) === TRUE){
                 #echo "Insert correcto";
