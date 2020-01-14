@@ -10,7 +10,7 @@
         die("conexion Fallida");
         # code...
     }
-
+    
     $sql = "CREATE DATABASE saco_db";
     if ($conexion->query($sql) === TRUE) {
         //echo "Base de datos creada correctamente";
@@ -81,6 +81,7 @@
             die("Error al Crear Base de Datos. ". $conexionT->error);
         }
     }else{
+        
         die("Error al Crear Base de Datos.".$conexion->error);
     }
     
