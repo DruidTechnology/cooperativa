@@ -182,7 +182,7 @@
                                             DATE_ADD(
                                              IFNULL(
                                                  (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
-                                                 , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +1 MONTH ) + INTERVAL 15 DAY 
+                                                 , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +2 MONTH ) + INTERVAL 15 DAY 
                                             
                                              >=  CURRENT_DATE()
                                                                                 group by a.id;";
@@ -276,20 +276,23 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql ="SELECT a.*  FROM afiliados a LEFT JOIN pago p ON p.id_afiliado = a.id WHERE
-                                            DATE_ADD(
-                                             IFNULL(
-                                                 (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
-                                                 , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +1 MONTH ) + INTERVAL 15 DAY 
-                                            
-                                             <  CURRENT_DATE() AND 
-                                             DATE_ADD(
-                                             IFNULL(
-                                                 (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
-                                                 , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +1 YEAR ) 
-                                             
-                                             >= CURRENT_DATE()
-                                                                                group by a.id;";
+                                            $sql ="SELECT a.* , DATE_ADD(
+                                                IFNULL(
+                                                    (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
+                                                    , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +2 MONTH ) + INTERVAL 15 DAY  FROM afiliados a LEFT JOIN pago p ON p.id_afiliado = a.id WHERE
+                                               DATE_ADD(
+                                                IFNULL(
+                                                    (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
+                                                    , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +2 MONTH ) + INTERVAL 15 DAY 
+                                               
+                                                <  CURRENT_DATE() AND 
+                                                DATE_ADD(
+                                                IFNULL(
+                                                    (SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y'))FROM afiliados aa LEFT JOIN pago p ON p.id_afiliado = aa.id WHERE aa.id =a.id)
+                                                    , STR_TO_DATE(CONCAT(a.fechaIngreso),'%m/%d/%Y')),INTERVAL +1 YEAR ) 
+                                                
+                                                >= CURRENT_DATE()
+                                                                                   group by a.id;";
                                             $resultado = $conexion->query($sql);
 
                                             if ($resultado->num_rows > 0) {

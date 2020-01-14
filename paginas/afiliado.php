@@ -6,7 +6,7 @@
             
         </ul>
         
-        <form action="/SACO/" enctype="multipart/form-data" method="POST">
+        <form action="/SACO/" enctype="multipart/form-data" onsubmit="return percent()"  method="POST">
         <?php
     
         //Declaracion de todas las variables
@@ -180,9 +180,9 @@
                     }
                     
                 }
-                if ($contador_porcentaje>1000) {
+                if ($contador_porcentaje>100) {
                     # code...
-                    array_push($campo, "El Campo Procentaje Beneficiario No Puede Estar Vacio.");
+                    array_push($campo, "El Total del Procentaje No Puede Sobrepasar El 100%.");
 
                 }
                 
@@ -277,19 +277,7 @@
 
                                 }
                                 $sqlB = $sqlB . ";";
-                                /*
-                                $sqlCA = "INSERT INTO cuotaAfiliado(fechaIngreso,montoCuota,mesPago,annioPago,pagado,id_Afiliado) VALUES('$dateNow_ca','$montoCouta_ca','$mesPago_ca','$annioPago_ca','$pagado_ca','$id_insert')";
-                                $dateparse = date_parse($mesPago_ca);
-                                #crea facturas de 12 meses
-                              
-                                for ($i=($dateparse['month'] +1); $i <= 12 ; $i++) { 
-                                    # code...
-                                    $temp_month  = date("F", mktime(0, 0, 0, $i, 10));
-                                    $sqlCA = $sqlCA . "," . "('$dateNow_ca','$montoCouta_ca','$temp_month','$annioPago_ca','$pagado_ca','$id_insert')" ;    
-                                }
-                                $sqlCA = $sqlCA . ";";    
-                                  */
-                                #crea el primer pago
+                            
                                 $sqlP = "INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota) VALUES('$mesPago_p','$annioPago_p','$pagado_p','$id_insert',1);";  
                                   
                                 if ($conexion->query($sqlB) === TRUE && $conexion->query($sqlP) === TRUE) {
@@ -526,7 +514,7 @@
                             </div>
                         </div>
                     </div>
-
+             
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="review-content-section">
                             <div class="row">
@@ -568,7 +556,7 @@
                                         <div class="row">
                                                 <div class="col-lg-12">
                                                     <div >
-                                                    <button class="btn btn-custon-rounded-four btn-warning" id="addB" type="button" onclick="createDivs()">AGREGAR BENEFICIARIO</button> 
+                                                    <button class="btn btn-custon-rounded-four" id="addB" type="button" onclick="createDivs()">AGREGAR BENEFICIARIO</button> 
 
                                                     </div>
                                                 </div>
@@ -604,6 +592,8 @@
                         
                         </div>
                     </div>
+             
+
                     
                 </div>
             </div>
@@ -638,7 +628,7 @@
                     <div class="form-group">
                         <label>Porcentaje</label>
                         <div class="input-mark-inner mg-b-22">
-                            <input name="porcentaje_b[]" type="text" oninput="percent(this.value)" class="form-control" data-mask="9?99 %"
+                            <input name="porcentaje_b[]" id="yellow" type="text"  class="form-control" 
                                 placeholder="" value="">
                             <span class="help-block">99 %</span>
                         </div>
@@ -650,22 +640,44 @@
                                 placeholder="" value="">
                             <span class="help-block">9999-9999</span>
                         </div>
-                        <button type="button" class="delethis btn btn-custon-rounded-four btn-danger">Eliminar</button>
+                        <button type="button" class="deletBeneficiario btn btn-custon-rounded-four btn-danger">Eliminar</button>
                     </div>
                     </div>
         `;
             
         
             
-            
+        
             document.getElementById("benetgroup").appendChild(div);  
+           
+           // $('input[name="porcentaje_b[]"]').
+
+                    (function($) {
+            $.fn.inputFilter = function(inputFilter) {
+                return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                } else {
+                    this.value = "";
+                }
+                });
+            };
+            }(jQuery));
+
+
+// Install input filters.
+       
+            $('input[name="porcentaje_b[]"]').inputFilter(function(value) {
+            return (/^[0-9]$|^[1-9][0-9]$|^(100)$/.test(value) || value ==="") && (value === "" || parseInt(value) <= 100); });
+            
             deleteBenef()
         }
-        function percent(a) {
-           console.log(a);
-           
-            
-        }
+      
         function createB() {
              
             var size = <?php echo count($nombre_b)?>  
@@ -709,18 +721,55 @@
                
                 
             }
+
+            
             
             
         }
+
+        function percent() {       
+            var matches = document.querySelectorAll(".beneficiario");
+            
+            total = 0
+            for (i = 0; i < matches.length; ++i) {
+                
+                if (parseInt(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value)) {
+                    total += parseInt(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value); 
+                }
+                
+                console.log(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value);
+                
+      
+            }
+            console.log(total);
+            
+            if (total >= 0 && total <=100) {
+                return true;
+            }
+            else{
+                alert("El Porcentaje to puede sobrepasar el 100 %")
+                return false;
+            }
+
+         
+            
+            
+        }
+        
         function deleteBenef(){
-            var matches = document.querySelectorAll(".delethis");
+            var matches = document.querySelectorAll(".deletBeneficiario");
             
             for (i = 0; i < matches.length; ++i) {
+                if (i==0) {
+                    matches[i].style.visibility = 'hidden';
+                }
+                
                 matches[i].onclick = function() {
                
-                var btns = document.querySelectorAll(".delethis");
+                var btns = document.querySelectorAll(".deletBeneficiario");
                 
                 if(btns.length <= 1){
+                    
 
                 }else{                        
                     this.parentElement.parentElement.remove();    
@@ -729,9 +778,12 @@
        
                
                 };
+
                 }
         }
+        
         function setup(){
+            
             createB();
             deleteBenef();
             fillvalue();
