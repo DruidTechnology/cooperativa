@@ -1,11 +1,13 @@
         <!-- Static Table Start -->
         <?php 
         if (isset($_GET['action']) && $_GET['action'] == 'Pagar') {
+            
             # code...
             $id = $_GET['id'];
             $sql ="UPDATE afiliados SET estadoAfiliado = 0 WHERE id = $id";
             
             if ($conexion->query($sql) === TRUE) {
+
                 # code...
                 echo"<div class='row'>";
                 echo"<div class='col-lg-12'>";
@@ -13,11 +15,15 @@
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
+                    
             }
         }
         
         
         if (isset($_POST['idAfiliado']) ) {
+            $monto = $_POST['monto'];
+            $succes = 0;
+
             $meses = "";
             $pago=  $_POST['totalPago'];
             $pagos = array();
@@ -26,12 +32,16 @@
             
             $numero_meses = sizeof($meses);
             # code...
+            
 
             $id_a = $_POST['idAfiliado'];
             $checkear_meses = 1;
             $todays_date = date("Y-m-d");
             $lastPayment  = "";
-
+            if ($meses == "") {
+                $checkear_meses = 0;
+            }
+            
             for ($i=0; $i < $numero_meses ; $i++) {
                 $mes_acutal = strtotime($meses[$i]);
                
@@ -63,7 +73,13 @@
          
                 }
             }
+            if (Is_Numeric($monto)) {
+            
+            }else{
+                $checkear_meses = 0;
+            }
             $sum_pagos = array_sum($pagos);
+            $monto2 =  strval( $monto);
             $sum_pagos2 =  strval( $sum_pagos);
            $pago2 =  strval( $pago);
             
@@ -71,9 +87,15 @@
                 $checkear_meses = 0;
                 
             }
+            if ($monto2 >= $sum_pagos2) {
+               
+            }else{
+
+                $checkear_meses = 0;
+            }
   
             
-
+            $cambio = $monto-$pago;
             if ($checkear_meses == 1) {
                 $pagado_p = 1;
                 $sqlP ="INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota) VALUES";
@@ -99,6 +121,26 @@
                 $sqlP = $sqlP . ";";
                
                 if ($conexion->query($sqlP) === TRUE) {
+                    $a_name ="";
+                    $a_lastname ="";
+                    $a_res = "";
+                    $getclient = "SELECT * FROM afiliados a WHERE a.id=$id_a";
+                    $a_res = $conexion->query($getclient);
+                    if ($a_res->num_rows > 0) {
+               
+                        # code...
+                        while($row = $a_res->fetch_assoc()){
+                            
+                            $a_name = $row['nombreAfiliado'];
+                            $a_lastname = $row['apellidosAfiliado'];
+                            
+                        }
+                         
+                    
+                    }
+                    $fullname = $a_name . $a_lastname;
+                    $bill_date = date("d-m-Y H:i:s");
+        
                     # code...
                     echo"<div class='row'>";
                     echo"<div class='col-lg-12'>";
@@ -106,6 +148,97 @@
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
+                    echo "<div id='totalfact'>";
+                    echo"<div class='row'>";
+                    echo "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
+                    echo "                        <div id ='factContainer'>";
+                    echo "                <div id='factura'>  "   ;               
+                    echo "                <h3>SACO</h3>";
+                    echo "                <table class='table'>";
+                    echo "                    <tr>";
+                    echo "                        <th>Cliente: </th>";
+                   
+                    echo "                        <td>$fullname</td>";
+                    
+                    echo "                    </tr>";
+                    echo "                    <tr>";
+                    echo "                        <th>ID:</th>";
+                    echo "                        <td>$id_a</td>";
+                    
+                    echo "                    </tr>";
+                    echo "                    <tr>";
+                    echo "                        <th>Fecha de Pago:</th>";
+                    echo "                        <td>$bill_date</td>";
+                    
+                    echo "                    </tr>";
+
+                    
+                    echo "                </table>";
+                    echo "                <table class='table'>";
+                    echo "                <thead>";
+                    echo "                    <tr>";
+                    echo "                    <th scope='col'>Cuota</th>";
+                    echo "                    <th scope='col'>Fecha</th>";
+                    echo "                    <th scope='col'>mora</th>";
+                    echo "                    <th scope='col'>Total</th>";
+                    echo "                    </tr>";
+                    echo "        </thead>";
+                    echo "        <tbody>";
+                   
+                      
+                    for ($i=0; $i < $numero_meses; $i++) { 
+                        $mora = "0";
+                        
+                        if ($pagos[$i] > "5") {
+                            $mora = "0.35"; 
+                            # code...
+                        }else{
+                          
+                        }
+                        $pagop = $pagos[$i];
+                        $pagop = number_format($pagop, 2, '.', '');
+
+                        
+                        $datep =   date("d-m-Y",strtotime($meses[$i]));
+                                echo "                <tr>";
+                            echo "                    <td>5</td>";
+                            echo "                    <td>$datep</td>";
+                            echo "                    <td>$mora</td>";
+                            echo "                    <td>$pagop</td>";
+                            echo "                </tr>";
+                        # code...
+                    }
+                    $pago = number_format($pago, 2, '.', '');
+                    $monto = number_format($monto, 2, '.', '');
+                    $cambio = number_format($cambio, 2, '.', '');
+                    echo "                <tr>";
+                    echo" <th colspan='3'scope='row'>Total a Pagar</th>";
+                    echo "<td >$pago</td>";
+                    
+                    echo "                </tr>";
+                    echo "                <tr>";
+                    echo" <th colspan='3'scope='row'>Pago</th>";
+                    echo "<td >$monto</td>";
+                    
+                    echo "                </tr>";
+                    echo "                <tr>";
+                    echo" <th colspan='3'scope='row'>Cambio</th>";
+                    echo "<td >$cambio</td>";
+                    
+                    echo "                </tr>";
+                    echo "                </tbody>";
+                    echo "                </table>";
+                    echo "            </div>";
+                    echo "           </div>";
+                    echo "<button type='button' class='btn btn-info' onclick='PrintElem(this)'>Imprimir</button>";
+                    echo "<button type='button' class='btn btn-warning' onclick='delFact(this)'>Cerrar</button>";
+                    echo "           </div>";
+                    echo "           </div>";
+                    echo "           </div>";
+                    
+                    $succes = 1;
+                    
+
                 }else{
                 //     echo $sqlP;
                     die("Error no guarda".$conexion->error);
@@ -122,13 +255,14 @@
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
+                echo "</div>";
+  
             }
            
             }
           
 
         ?>
-
 
 <nav class="nav">
 
@@ -462,14 +596,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <form  action="/SACO/pagocuotas.php" enctype="multipart/form-data" method="POST">
+        <form  id="formPago"action="/SACO/pagocuotas.php" onsubmit="return validateForm()" enctype="multipart/form-data" method="POST">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Cliente ID:</label>
             <input type="text" name="idAfiliado" class="form-control" value=""id="modalte" readonly>
           </div>
           <div class="form-group">
                 
-                <select id="select_meses" onchange="validateSelects()" name="selectedMeses[]" class="form-control" multiple>
+                <select id="select_meses"  onchange="validateSelects()" name="selectedMeses[]" class="form-control" required multiple>
                 
                 </select>
           </div>
@@ -481,19 +615,81 @@
         <input type="hidden" name="totalPago" id="totalPago" value="0"> 
         
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Pagar</button>
+        <button type="button" class="btn btn-primary" data-target="#exampleModal2" data-toggle="modal">Pagar</button>
       </div> 
-        </form>
+      </form>
       </div>
     </div>
   </div>
 </div>
 
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  
+  <div class="modal-dialog" role="document">
+
+                                            
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">PAGO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Clisadsadente ID:</label>
+            <input type="text" name="monto" class="form-control"  value=""id="monto" onchange="setTwoNumberDecimal(this)"  form="formPago" required>
+          </div>
+          <div class="form-group">
+    
+          </div>
+                                            
+          
+          <div class="modal-footer">
+        <h4>TOTAL</h4>
+        <h3 id = "totalPago3">0</h3>
+     
+        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit"  form="formPago" class="btn btn-primary">Pagar</button>
+     
+      </div> 
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  
+
 <script> 
-    var array_pagos_monto = [];
+function setTwoNumberDecimal(monto) {
+    console.log(monto.value);
+    var reg = "^[0-9]+(\.[0-9]{1,2})?$";
+    var regex = new RegExp(reg);
+    if (!(regex.test(monto.value))) {
+        if (isNaN(monto.value)) {
+            monto.value = "";
+        }else{
+            if (monto.value <= 0) {
+                monto.value = monto.value*-1;
+                
+            }
+            monto.value = parseFloat(monto.value).toFixed(2);
+        }
+        
+        
+    }
+    
+}
+   var array_pagos_monto = [];
     function calcPagos(fecha) {
         var nowss = new Date();
-
             if (fecha) {
                 var check_mora_date = new Date(fecha);
                     cuota = 5;
@@ -506,10 +702,8 @@
                     }else{
                         array_pagos_monto.push(cuota);
                     }
-
             }                    
     }
-
     function validateSelects() {
         var selecteds =[];
         var lst;
@@ -523,24 +717,37 @@
         for (let i = 0; i <= lst ; i++) {
             selecteds[i].selected = true;
             total += array_pagos_monto[i];
-            console.log(array_pagos_monto);
+           // console.log(array_pagos_monto);
             
             total =Math.round(total * 100) / 100 
             
         }
         
         h3_pago = document.getElementById("totalPago2");
+        h3_pagom = document.getElementById("totalPago3");
+        
+        
         
         document.getElementById("totalPago").value = total;
         h3_pago.innerHTML = total;
-  
+        h3_pagom.innerHTML = total;
     }
     var temp = { annio: 2019,   
         mes:6,   
         day:8
     };
+
+
+function validateForm(){
+
+  
+    return true;
+}    
 function countmeses(fecthmeses,fecha_act) {
     let array = [];
+   
+    
+    console.log(fecha_act);
     
     fecthmeses.forEach(element => {
         
@@ -553,23 +760,23 @@ function countmeses(fecthmeses,fecha_act) {
         }
         array.push(push);      
     });
-
    
     var fecha_activacion  =  new Date(Date.parse(fecha_act));
     var fecha_iniciopagos = fecha_activacion;
-    fecha_iniciopagos.setMonth(fecha_activacion.getMonth()+1);
+   // fecha_iniciopagos.setMonth(fecha_activacion.getMonth()+1);
     fecha_iniciopagos.setDate(15);
     var now= new Date();
-    console.log(now);
+   // console.log(now);
     console.log(fecha_iniciopagos);
     
     
     let mesesp = [];
     var contmes = fecha_iniciopagos.getMonth();
+    now.setDate(15);
+    now.setHours(0,0,0,0)
 
-    now.setDate(16);
-    
-    while (fecha_iniciopagos < now) {
+
+    while (fecha_iniciopagos <= now) {
         if (contmes > 11) {
             contmes = 0;
         }
@@ -581,7 +788,7 @@ function countmeses(fecthmeses,fecha_act) {
             
              contmes++;
              fecha_iniciopagos.setMonth(fecha_iniciopagos.getMonth()+1);     
-             console.log(contmes);
+            // console.log(contmes);
              
              console.log(fecha_iniciopagos);
         let push = {
@@ -592,8 +799,6 @@ function countmeses(fecthmeses,fecha_act) {
       //  console.log(push); 
         mesesp.push(push);     
     }
-
-
     for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < mesesp.length; j++) {
          
@@ -605,27 +810,22 @@ function countmeses(fecthmeses,fecha_act) {
             
     }
  
-
     return mesesp;
     
 }
-
 function fill(id){
     
     $('#modalte').val(id);
     getMesesP(id);
 }
-
 function getMesesP(id) {
     var fecha_activacion_a="";
     var url = `/SACO/fetch.php?id=${id}&action=retraer`;
     var fecha_activacion_url = `/SACO/fetch.php?id=${id}&action=fechaActivacion`;
     fetch(fecha_activacion_url)
         .then(function (response) {
-
             return response.text();
         }).then(function (bodys) {
-
             fecha_activacion_a = bodys;
             console.log(fecha_activacion_a);
             
@@ -634,17 +834,18 @@ function getMesesP(id) {
                 return response.text();
             })
             .then(function (body) {
+            
+                
                 
                 
                 var pagos = JSON.parse(body);
-                console.log(pagos);
+              
                 
-
                 var mesesapagar = countmeses(pagos,fecha_activacion_a);
               
                 var sel = document.getElementById('select_meses');
                 sel.innerHTML = '';
-                console.log(mesesapagar);
+              //  console.log(mesesapagar);
                 
                 for (let index = 0; index < mesesapagar.length; index++) {
                    
@@ -654,7 +855,6 @@ function getMesesP(id) {
                     let date = new Date(Date.parse(`${mes+1}/15/${annio}`)); 
                     calcPagos(date)
                     let month = date.toLocaleString('default', { month: 'long' });
-
                     
                     
                     var opt = document.createElement('option');
@@ -668,11 +868,46 @@ function getMesesP(id) {
                 
             }
        
-
         });
        
     });
 
+
+
 }
 </script> 
+    <script type="text/javascript">
+    
+    function modal() {
+       
+        $('#myModal').modal('show');
+  
+    }
+
+    function PrintElem(elem)
+{
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write('</head><body >');
+  //  mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write(document.getElementById("factura").innerHTML);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+}
+function delFact() {
+    document.getElementById("totalfact").remove();
+    
+    
+}
+  
+    window.onload = modal
+</script>
     

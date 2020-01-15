@@ -490,7 +490,7 @@
                                                 placeholder="Escriba Direccion" value="<?php echo $direccion_a ?>">
                                         </div>
                                         <div class="form-group">
-                                            <label>Nacionalidad</label>
+                                            <label>Nacionalidad Afiliado</label>
                                             <input name="nacionalidad_a" id="nacionalidad_a" type="text" class="form-control"
                                                 placeholder="Escriba nacionalidad" value="<?php echo $nacionalidad_a ?>">
                                         </div>
@@ -565,11 +565,15 @@
                         </div>
                     </div>
                     
+                    
              
 
                     
                 </div>
             </div>
+
+            
+
         </div>
         </form>
     </div>
@@ -707,7 +711,9 @@
                 if (parseInt(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value)) {
                     total += parseInt(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value); 
                 }
-                //arreglos 
+                
+          
+                
       
             }
         
