@@ -521,42 +521,12 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="devit-card-custom">
                                         <div id="benetgroup" class="benetgroup">
-                                            <!-- 
-                                            <div id="benet1" class="beneficiario">
-                                                <div class="form-group">
-                                                    <label>Nombre Beneficiario</label>
-                                                    <input name="nombre_b[]"  type="text" class="form-control" name="nombreBeneficiario_a"
-                                                        placeholder="Escriba Nombre" value="<?php echo $nombre_b ?>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Parentesco</label>
-                                                    <input name="parentesco_b[]"  type="text" class="form-control"
-                                                        placeholder="Escriba el Parentesco" value="<?php echo $parentesco_b ?>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Porcentaje</label>
-                                                    <div class="input-mark-inner mg-b-22">
-                                                        <input name="porcentaje_b[]"  type="text" class="form-control" data-mask="999 %"
-                                                            placeholder="" value="<?php echo $porcentaje_b ?>">
-                                                        <span class="help-block">99 %</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Numero de Contacto</label>
-                                                    <div class="input-mark-inner mg-b-22">
-                                                        <input name="contacto_b[]" type="text" class="form-control" data-mask="9999-9999"
-                                                            placeholder="" value="<?php echo $contacto_b ?>">
-                                                        <span class="help-block">9999-9999</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            -->
                                             
                                         </div>
                                         <div class="row">
                                                 <div class="col-lg-12">
                                                     <div >
-                                                    <button class="btn btn-custon-rounded-four" id="addB" type="button" onclick="createDivs()">AGREGAR BENEFICIARIO</button> 
+                                                    <button class="btn btn-custon-rounded-four btn-info" id="addB" type="button" onclick="createDivs()">AGREGAR BENEFICIARIO</button> 
 
                                                     </div>
                                                 </div>
@@ -574,6 +544,18 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="payment-adress" id="myTabedu1">
+                                                        <a href="#description"
+                                                            class="btn btn-primary waves-effect waves-light">
+                                                           ATRAS</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <br>
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -592,6 +574,7 @@
                         
                         </div>
                     </div>
+                    
              
 
                     
@@ -614,7 +597,7 @@
 
             div.className = 'row';
             div.innerHTML = `
-                    <div class="beneficiario">
+                    <div class="beneficiario" >
                     <div class="form-group">
                         <label>Nombre Beneficiario</label>
                         <input name="nombre_b[]"  type="text" class="form-control" name="nombreBeneficiario_a"
@@ -647,11 +630,9 @@
             
         
             
-        
-            document.getElementById("benetgroup").appendChild(div);  
-           
-           // $('input[name="porcentaje_b[]"]').
-
+     
+       $(div).hide().appendTo('#benetgroup').show('slow');
+    
                     (function($) {
             $.fn.inputFilter = function(inputFilter) {
                 return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
@@ -737,11 +718,11 @@
                     total += parseInt(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value); 
                 }
                 
-                console.log(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value);
+          
                 
       
             }
-            console.log(total);
+        
             
             if (total >= 0 && total <=100) {
                 return true;
@@ -770,9 +751,21 @@
                 
                 if(btns.length <= 1){
                     
+                    
 
-                }else{                        
-                    this.parentElement.parentElement.remove();    
+                }else{     
+                    //$(this.parentElement.parentElement).hide('slow');
+                    
+                    $(this.parentElement.parentElement).hide('slow', function(){
+                      //  console.log(this);
+                        
+                         $(this.parentElement).remove();
+                         
+                          });
+
+                     //  console.log($(this.parentElement.parentElement));
+                   
+                //this.parentElement.parentElement.remove();    
           
                 }   
        
