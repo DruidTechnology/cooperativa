@@ -448,8 +448,8 @@
                                                     <div class="form-group">                   
                                                                     <label>Sueldo</label>
                                                                 <div class="input-mark-inner mg-b-22">
-                                                                    <input type="text" class="form-control" name="sueldo_a" id="sueldo_a"
-                                                                         placeholder="" value="<?php echo $sueldo_a ?>">
+                                                                    <input type="text" class="form-control" name="sueldo_a" id="sueldo_a" onchange="setTwoNumberDecimal(this)"
+                                                                         placeholder="" value="<?php echo $sueldo_a ?>" required>
                                                                     <span class="help-block">$ 9,999.99</span>
                                                                 </div>
                                                     </div>
@@ -775,6 +775,26 @@
             deleteBenef();
             fillvalue();
         }
+
+        function setTwoNumberDecimal(monto) {
+    console.log(monto.value);
+    var reg = "^[0-9]+(\.[0-9]{1,2})?$";
+    var regex = new RegExp(reg);
+    if (!(regex.test(monto.value))) {
+        if (isNaN(monto.value)) {
+            monto.value = "";
+        }else{
+            if (monto.value <= 0) {
+                monto.value = monto.value*-1;
+                
+            }
+            monto.value = parseFloat(monto.value).toFixed(2);
+        }
+        
+        
+    }
+    
+}
         window.onload = setup;
 
         
