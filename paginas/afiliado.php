@@ -545,17 +545,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="payment-adress" id="myTabedu1">
-                                                        <a href="#description"
-                                                            class="btn btn-primary waves-effect waves-light">
-                                                           ATRAS</a>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                      
                                             <br>
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -717,9 +707,7 @@
                 if (parseInt(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value)) {
                     total += parseInt(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value); 
                 }
-                
-          
-                
+                //arreglos 
       
             }
         
