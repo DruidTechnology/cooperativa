@@ -1,6 +1,7 @@
 <div class="container-fluid">
         
         <!-- Static Table Start -->
+ 
         <?php 
         if (isset($_GET['action']) && $_GET['action'] == 'Pagar') {
             
@@ -175,7 +176,7 @@
                   
                     echo "<div class='container-fluid' id='totalfact'>";
                     echo"<div class='row'>";
-                    echo "<div class='.col-xs-12 .col-sm-6 .col-md-8'>";
+                    echo "<div class='col-xs-12 col-sm-6 col-md-8 border-bottom'>";
                     echo "                        <div id ='factContainer'>";
                     echo "                <div id='factura'>  "   ;               
                     echo "                <h3>SACO</h3>";
@@ -260,43 +261,17 @@
 
                     echo "           </div>";
                     ?>
-                    <div class= ".col-xs-6 .col-md-4">
+                    <div class= "col-xs-6 col-md-4">
                     
-                    <div class='.container-fluid'>
-                    <div class='row'>
-                    <div class="col-xs-1">
-                    <button type='button' class='btn btn-info' onclick='PrintElem(this)'>Imprimir</button>
-                    </div>
-                    <div class="col-xs-1">
-                    <button type='button' class='btn btn-warning' onclick='delFact(this)'>Cerrar</button>
-                    </div>
-             
-                    <div class='col-md-1'>
+                    <div class="row">
 
-                    <div class='.container-fluid'>
-                    <div class='row'>
-                    <div class='col-md-1'>
-                  
-                    </div>
-                    </div>
-
-                    <div class='row'>
-                    <div class='col-md-1'>
-                    
-                    </div>
-                    </div>
-                    </div>
-                    
-
-
-                    </div>
-
-
-                    </div>
-                    
-
-                    </div>
-                    </div>
+  <div class="col-xs-4">
+  <button type='button' class='btn btn-info' onclick='PrintElem(this)'>Imprimir</button>
+  </div>
+  <div class="col-xs-4">
+  <button type='button' class='btn btn-warning' onclick='delFact(this)'>Cerrar</button>
+  </div>
+</div>
                  
                     </div>
                     <?php
@@ -332,7 +307,7 @@
 
         ?>
 </div>
-<nav class="nav">
+<nav class="nav navbar-default">
 
   <div class="btn btn-primar payment-adress" id="myTabedu1">
             <a class="navbar-brand " href="#aldia">Al Dia</a>
