@@ -49,7 +49,7 @@
                                                         <li><a href="#"><span class="edu-icon edu-user-rounded author-log-ic"></span>Mi Perfil</a>
                                                         <li><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Opciones</a>
                                                         </li>
-                                                        <li><a href="includes/logout.php"><span class="edu-icon edu-locked author-log-ic"></span>Salir</a>
+                                                        <li><a href="logout.php"><span class="edu-icon edu-locked author-log-ic"></span>Salir</a>
                                                         </li>
                                                     </ul>
                                                 </li>

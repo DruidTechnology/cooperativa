@@ -40,7 +40,7 @@
             password VARCHAR(100) NOT NULL,
             nombre VARCHAR(50) NOT NULL,
             correo VARCHAR(50) NOT NULL,
-            last_session DATETIME NULL DEFAULT NULL;
+            last_session DATETIME NULL DEFAULT NULL,
             activacion INT(11) NOT NULL,
             token VARCHAR(50) NOT NULL,
             token_password VARCHAR(100) NULL,
@@ -100,11 +100,14 @@
         );";
         $string = "admin";
         $md5pass = md5($string);
+        $gen = md5(uniqid(mt_rand(), false));
         $sqlICA ="INSERT INTO cuota(montoCuota) VALUES(5);";
         $sqlAlter = "ALTER TABLE `pago` ADD UNIQUE `unique_index`(`mespago`, `anniopago`, `id_afiliado`);";
-        $sqlAdmin = "INSERT INTO usuarios(nombre, username, password, rol)
-        VALUES('Administrador','admin','$md5pass','Administrador')";
-        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTF) === TRUE && $conexionT->query($sqlTUsuario) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE && $conexionT->query($sqlAdmin) === TRUE && $conexionT->query($sqlTipoUsu) === TRUE) {
+        $sqlTipo = "INSERT INTO tipo_usuario(tipo) VALUES('Administrador')";
+        $sqlAdminUsu = "INSERT INTO usuarios(usuario, password,nombre,correo,activacion,token, id_tipo)
+        VALUES('admin','$md5pass','AdministradorSACO','monterrosadelgado@gmail.com','1','$gen','1')";
+        
+        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTF) === TRUE && $conexionT->query($sqlTUsuario) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE && $conexionT->query($sqlTipoUsu) === TRUE && $conexionT->query($sqlAdminUsu) === TRUE && $conexionT->query($sqlTipo) === TRUE ) {
             # code...
 
             echo "Tabla Creada exitosamente.";
