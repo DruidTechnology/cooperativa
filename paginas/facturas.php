@@ -1,4 +1,15 @@
+<div class= 'col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    
+<div class="container-fluid">
+    
+    <div class="row">
+    <div class= 'col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    <a class="btn btn-primary btn-lg" href="/SACO/pagoCuotas.php" role="button">PAGOS</a>
+</div>
+</div>
+    <div class="row">   
 <?php 
+
      if (isset($_GET['action']) && $_GET['action'] == 'factura') {
          $id_a = $_GET['id'];
          
@@ -30,13 +41,7 @@
                     WHERE p.factura=$id_fact;";
                   
 
-echo"<div class='row'>";
-echo"<div class='col-lg-12'>";
-echo"<div class='alert alert-success alert-st-one alert-st-bg '> Pago Correcto.";
-echo "</div>";
-echo "</div>";
-echo "</div>";
-echo "<div id='totalfact'>";
+echo "<div class= 'col-lg-12 col-md-12 col-sm-12 col-xs-12' id='totalfact$id_fact'>";
 echo"<div class='row'>";
 echo "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
 echo "                        <div id ='factContainer'>";
@@ -75,7 +80,7 @@ echo "        <tbody>";
                     if ($result3 = $conexion->query($sqlP)) {
                         # code...
                         while($row3 = $result3->fetch_assoc()){
-                            echo $row3['id'];
+                         
                             $id_p = $row3['id'];
                             $p_mes = $row3['mesPago'];
                             $p_annio = $row3['annioPago'];
@@ -92,7 +97,7 @@ echo "        <tbody>";
                         
                             $date_p = date("d-m-Y",strtotime($date_p));
                             
-                           // echo $date_p . "<br>";
+                           
                             echo "                <tr>";
                             echo "                    <td>5</td>";
                             echo "                    <td>$date_p</td>";
@@ -132,10 +137,10 @@ echo "                </tbody>";
 echo "                </table>";
 echo "            </div>";
 echo "           </div>";
-echo "<button type='button' class='btn btn-info' onclick='PrintElem(this)'>Imprimir</button>";
-echo "<button type='button' class='btn btn-warning' onclick='delFact(this)'>Cerrar</button>";
+
 echo "           </div>";
 echo "           </div>";
+echo "<button   id='$id_fact' type='button' class='btn btn-info' onclick='PrintElem(this.id)'>Imprimir</button>";
 echo "           </div>";
 
                     
@@ -157,5 +162,28 @@ echo "           </div>";
 
 
 ?>
+</div>
+</div>
+</div>
 
 
+<script>
+  function PrintElem(id)
+{
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write('</head><body >');
+  //  mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write(document.getElementById("totalfact" + id).innerHTML);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+}
+</script>

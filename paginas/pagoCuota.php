@@ -1,3 +1,5 @@
+<div class="container-fluid">
+        
         <!-- Static Table Start -->
         <?php 
         if (isset($_GET['action']) && $_GET['action'] == 'Pagar') {
@@ -116,7 +118,7 @@
                 
                 $sqlP ="INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota,factura,mora) VALUES";
                
-              //  echo $numero_querys_p;
+             
                 for($i = 0;$i <$numero_meses;$i++){
                     
                     $date = strtotime($meses[$i]);
@@ -126,7 +128,7 @@
                     if ($pagos[$i] > "5") {
                         
                         $mora_p = 1; 
-                        # code...
+         
                     }
                     if($i+1 <$numero_meses){
                         $sqlP = $sqlP . "('$mes_p','$annio_p','$pagado_p','$id_a','$pagado_p','$id_insert','$mora_p')" . ",";
@@ -141,12 +143,7 @@
          
                 $sqlP = $sqlP . ";";
                
-        
-              
-                
-            
 
-            
                 if ($conexion->query($sqlP) === TRUE) {
                     $a_name ="";
                     $a_lastname ="";
@@ -165,7 +162,7 @@
                          
                     
                     }
-                    $fullname = $a_name . $a_lastname;
+                    $fullname = $a_name . " ". $a_lastname;
                     $bill_date = date("d-m-Y H:i:s");
         
                     # code...
@@ -175,13 +172,14 @@
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
-                    echo "<div id='totalfact'>";
+                  
+                    echo "<div class='container-fluid' id='totalfact'>";
                     echo"<div class='row'>";
-                    echo "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
+                    echo "<div class='.col-xs-12 .col-sm-6 .col-md-8'>";
                     echo "                        <div id ='factContainer'>";
                     echo "                <div id='factura'>  "   ;               
                     echo "                <h3>SACO</h3>";
-                    echo "                <table class='table'>";
+                    echo "                <table class='table  table-bordered'>";
                     echo "                    <tr>";
                     echo "                        <th>Cliente: </th>";
                    
@@ -201,7 +199,7 @@
 
                     
                     echo "                </table>";
-                    echo "                <table class='table'>";
+                    echo "                <table class='table table-bordered table-striped'>";
                     echo "                <thead>";
                     echo "                    <tr>";
                     echo "                    <th scope='col'>Cuota</th>";
@@ -253,13 +251,55 @@
                     echo "<td >$cambio</td>";
                     
                     echo "                </tr>";
+                    echo "                </tr>";
+               
                     echo "                </tbody>";
                     echo "                </table>";
                     echo "            </div>";
                     echo "           </div>";
-                    echo "<button type='button' class='btn btn-info' onclick='PrintElem(this)'>Imprimir</button>";
-                    echo "<button type='button' class='btn btn-warning' onclick='delFact(this)'>Cerrar</button>";
+
                     echo "           </div>";
+                    ?>
+                    <div class= ".col-xs-6 .col-md-4">
+                    
+                    <div class='.container-fluid'>
+                    <div class='row'>
+                    <div class="col-xs-1">
+                    <button type='button' class='btn btn-info' onclick='PrintElem(this)'>Imprimir</button>
+                    </div>
+                    <div class="col-xs-1">
+                    <button type='button' class='btn btn-warning' onclick='delFact(this)'>Cerrar</button>
+                    </div>
+             
+                    <div class='col-md-1'>
+
+                    <div class='.container-fluid'>
+                    <div class='row'>
+                    <div class='col-md-1'>
+                  
+                    </div>
+                    </div>
+
+                    <div class='row'>
+                    <div class='col-md-1'>
+                    
+                    </div>
+                    </div>
+                    </div>
+                    
+
+
+                    </div>
+
+
+                    </div>
+                    
+
+                    </div>
+                    </div>
+                 
+                    </div>
+                    <?php
                     echo "           </div>";
                     echo "           </div>";
                     
@@ -291,17 +331,17 @@
           
 
         ?>
-
+</div>
 <nav class="nav">
 
   <div class="btn btn-primar payment-adress" id="myTabedu1">
-            <a class="nav-link " href="#aldia">Al Dia</a>
+            <a class="navbar-brand " href="#aldia">Al Dia</a>
     </div>
     <div class="btn btn-primar payment-adress" id="myTabedu1">
-            <a class="nav-link " href="#mora">Mora</a>
+            <a class="navbar-brand " href="#mora">Mora</a>
     </div>
     <div class="btn btn-primar payment-adress" id="myTabedu1">
-            <a class="nav-link " href="#incobrable">incobrable</a>
+            <a class="navbar-brand" href="#incobrable">incobrable</a>
     </div>
 
 </nav>
@@ -353,9 +393,9 @@
                                             
 
                                             if ($resultado->num_rows > 0) {
-                                                # code...
+                                             
                                                 while($row = $resultado->fetch_assoc()){
-                                                    //var_dump($row);
+                                                  
                                                     
                                                     ?>
                                                 
@@ -370,7 +410,7 @@
                                                 <td>
                                                     <?php 
                                                     if ($row['estadoAfiliado'] == '1') {
-                                                        # code...
+                                           
                                                     ?>
                                                
                                                     <button type="button" onclick="fill(this.id)" data-target="#exampleModal" data-toggle="modal" id="<?php echo $row['id'];?>" class="btn btn-custon-rounded-four btn-success" title="Pagar">
@@ -381,8 +421,7 @@
                                                     
                                                     }else{
                                                     ?>
-                                                    <a href="/SACO/listaAfiliados.php?id=<?php echo $row['id'];?>&action=DarAlta" class="btn btn-custon-rounded-four btn-success" title="Dar de Alta">
-                                                    <i class="fa fa-level-up"></i></a>
+                                  
                                                     
                                                     <?php
                                                     }
@@ -488,8 +527,7 @@
                                                     
                                                     }else{
                                                     ?>
-                                                    <a href="/SACO/listaAfiliados.php?id=<?php echo $row['id'];?>&action=DarAlta" class="btn btn-custon-rounded-four btn-success" title="Dar de Alta">
-                                                    <i class="fa fa-level-up"></i></a>
+                                         
                                                     
                                                     <?php
                                                     }
@@ -586,8 +624,7 @@
                                                     
                                                     }else{
                                                     ?>
-                                                    <a href="/SACO/listaAfiliados.php?id=<?php echo $row['id'];?>&action=DarAlta" class="btn btn-custon-rounded-four btn-success" title="Dar de Alta">
-                                                    <i class="fa fa-level-up"></i></a>
+                                
                                                     
                                                     <?php
                                                     }
