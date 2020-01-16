@@ -6,7 +6,7 @@
             
         </ul>
         
-        <form action="/SACO/" enctype="multipart/form-data" method="POST">
+        <form action="/SACO/" enctype="multipart/form-data" onsubmit="return percent()"  method="POST">
         <?php
     
         //Declaracion de todas las variables
@@ -180,9 +180,9 @@
                     }
                     
                 }
-                if ($contador_porcentaje>1000) {
+                if ($contador_porcentaje>100) {
                     # code...
-                    array_push($campo, "El Campo Procentaje Beneficiario No Puede Estar Vacio.");
+                    array_push($campo, "El Total del Procentaje No Puede Sobrepasar El 100%.");
 
                 }
                 
@@ -277,19 +277,7 @@
 
                                 }
                                 $sqlB = $sqlB . ";";
-                                /*
-                                $sqlCA = "INSERT INTO cuotaAfiliado(fechaIngreso,montoCuota,mesPago,annioPago,pagado,id_Afiliado) VALUES('$dateNow_ca','$montoCouta_ca','$mesPago_ca','$annioPago_ca','$pagado_ca','$id_insert')";
-                                $dateparse = date_parse($mesPago_ca);
-                                #crea facturas de 12 meses
-                              
-                                for ($i=($dateparse['month'] +1); $i <= 12 ; $i++) { 
-                                    # code...
-                                    $temp_month  = date("F", mktime(0, 0, 0, $i, 10));
-                                    $sqlCA = $sqlCA . "," . "('$dateNow_ca','$montoCouta_ca','$temp_month','$annioPago_ca','$pagado_ca','$id_insert')" ;    
-                                }
-                                $sqlCA = $sqlCA . ";";    
-                                  */
-                                #crea el primer pago
+                            
                                 $sqlP = "INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota) VALUES('$mesPago_p','$annioPago_p','$pagado_p','$id_insert',1);";  
                                   
                                 if ($conexion->query($sqlB) === TRUE && $conexion->query($sqlP) === TRUE) {
@@ -460,8 +448,8 @@
                                                     <div class="form-group">                   
                                                                     <label>Sueldo</label>
                                                                 <div class="input-mark-inner mg-b-22">
-                                                                    <input type="text" class="form-control" name="sueldo_a" id="sueldo_a"
-                                                                         placeholder="" value="<?php echo $sueldo_a ?>">
+                                                                    <input type="text" class="form-control" name="sueldo_a" id="sueldo_a" onchange="setTwoNumberDecimal(this)"
+                                                                         placeholder="" value="<?php echo $sueldo_a ?>" required>
                                                                     <span class="help-block">$ 9,999.99</span>
                                                                 </div>
                                                     </div>
@@ -502,7 +490,7 @@
                                                 placeholder="Escriba Direccion" value="<?php echo $direccion_a ?>">
                                         </div>
                                         <div class="form-group">
-                                            <label>Nacionalidad</label>
+                                            <label>Nacionalidad Afiliado</label>
                                             <input name="nacionalidad_a" id="nacionalidad_a" type="text" class="form-control"
                                                 placeholder="Escriba nacionalidad" value="<?php echo $nacionalidad_a ?>">
                                         </div>
@@ -526,49 +514,19 @@
                             </div>
                         </div>
                     </div>
-
+             
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="review-content-section">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="devit-card-custom">
                                         <div id="benetgroup" class="benetgroup">
-                                            <!-- 
-                                            <div id="benet1" class="beneficiario">
-                                                <div class="form-group">
-                                                    <label>Nombre Beneficiario</label>
-                                                    <input name="nombre_b[]"  type="text" class="form-control" name="nombreBeneficiario_a"
-                                                        placeholder="Escriba Nombre" value="<?php echo $nombre_b ?>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Parentesco</label>
-                                                    <input name="parentesco_b[]"  type="text" class="form-control"
-                                                        placeholder="Escriba el Parentesco" value="<?php echo $parentesco_b ?>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Porcentaje</label>
-                                                    <div class="input-mark-inner mg-b-22">
-                                                        <input name="porcentaje_b[]"  type="text" class="form-control" data-mask="999 %"
-                                                            placeholder="" value="<?php echo $porcentaje_b ?>">
-                                                        <span class="help-block">99 %</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Numero de Contacto</label>
-                                                    <div class="input-mark-inner mg-b-22">
-                                                        <input name="contacto_b[]" type="text" class="form-control" data-mask="9999-9999"
-                                                            placeholder="" value="<?php echo $contacto_b ?>">
-                                                        <span class="help-block">9999-9999</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            -->
                                             
                                         </div>
                                         <div class="row">
                                                 <div class="col-lg-12">
                                                     <div >
-                                                    <button class="btn btn-custon-rounded-four btn-warning" id="addB" type="button" onclick="createDivs()">AGREGAR BENEFICIARIO</button> 
+                                                    <button class="btn btn-custon-rounded-four btn-info" id="addB" type="button" onclick="createDivs()">AGREGAR BENEFICIARIO</button> 
 
                                                     </div>
                                                 </div>
@@ -586,6 +544,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                      
                                             <br>
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -605,8 +565,15 @@
                         </div>
                     </div>
                     
+                    
+             
+
+                    
                 </div>
             </div>
+
+            
+
         </div>
         </form>
     </div>
@@ -624,7 +591,7 @@
 
             div.className = 'row';
             div.innerHTML = `
-                    <div class="beneficiario">
+                    <div class="beneficiario" >
                     <div class="form-group">
                         <label>Nombre Beneficiario</label>
                         <input name="nombre_b[]"  type="text" class="form-control" name="nombreBeneficiario_a"
@@ -638,7 +605,7 @@
                     <div class="form-group">
                         <label>Porcentaje</label>
                         <div class="input-mark-inner mg-b-22">
-                            <input name="porcentaje_b[]" type="text" oninput="percent(this.value)" class="form-control" data-mask="9?99 %"
+                            <input name="porcentaje_b[]" id="yellow" type="text"  class="form-control" 
                                 placeholder="" value="">
                             <span class="help-block">99 %</span>
                         </div>
@@ -650,22 +617,42 @@
                                 placeholder="" value="">
                             <span class="help-block">9999-9999</span>
                         </div>
-                        <button type="button" class="delethis btn btn-custon-rounded-four btn-danger">Eliminar</button>
+                        <button type="button" class="deletBeneficiario btn btn-custon-rounded-four btn-danger">Eliminar</button>
                     </div>
                     </div>
         `;
             
         
             
+     
+       $(div).hide().appendTo('#benetgroup').show('slow');
+    
+                    (function($) {
+            $.fn.inputFilter = function(inputFilter) {
+                return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                } else {
+                    this.value = "";
+                }
+                });
+            };
+            }(jQuery));
+
+
+// Install input filters.
+       
+            $('input[name="porcentaje_b[]"]').inputFilter(function(value) {
+            return (/^[0-9]$|^[1-9][0-9]$|^(100)$/.test(value) || value ==="") && (value === "" || parseInt(value) <= 100); });
             
-            document.getElementById("benetgroup").appendChild(div);  
             deleteBenef()
         }
-        function percent(a) {
-           console.log(a);
-           
-            
-        }
+      
         function createB() {
              
             var size = <?php echo count($nombre_b)?>  
@@ -709,33 +696,105 @@
                
                 
             }
+
+            
             
             
         }
+
+        function percent() {       
+            var matches = document.querySelectorAll(".beneficiario");
+            
+            total = 0
+            for (i = 0; i < matches.length; ++i) {
+                
+                if (parseInt(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value)) {
+                    total += parseInt(matches[i].querySelectorAll("input[name='porcentaje_b[]']")[0].value); 
+                }
+                
+          
+                
+      
+            }
+        
+            
+            if (total >= 0 && total <=100) {
+                return true;
+            }
+            else{
+                alert("El Porcentaje to puede sobrepasar el 100 %")
+                return false;
+            }
+
+         
+            
+            
+        }
+        
         function deleteBenef(){
-            var matches = document.querySelectorAll(".delethis");
+            var matches = document.querySelectorAll(".deletBeneficiario");
             
             for (i = 0; i < matches.length; ++i) {
+                if (i==0) {
+                    matches[i].style.visibility = 'hidden';
+                }
+                
                 matches[i].onclick = function() {
                
-                var btns = document.querySelectorAll(".delethis");
+                var btns = document.querySelectorAll(".deletBeneficiario");
                 
                 if(btns.length <= 1){
+                    
+                    
 
-                }else{                        
-                    this.parentElement.parentElement.remove();    
+                }else{     
+                    //$(this.parentElement.parentElement).hide('slow');
+                    
+                    $(this.parentElement.parentElement).hide('slow', function(){
+                      //  console.log(this);
+                        
+                         $(this.parentElement).remove();
+                         
+                          });
+
+                     //  console.log($(this.parentElement.parentElement));
+                   
+                //this.parentElement.parentElement.remove();    
           
                 }   
        
                
                 };
+
                 }
         }
+        
         function setup(){
+            
             createB();
             deleteBenef();
             fillvalue();
         }
+
+        function setTwoNumberDecimal(monto) {
+    console.log(monto.value);
+    var reg = "^[0-9]+(\.[0-9]{1,2})?$";
+    var regex = new RegExp(reg);
+    if (!(regex.test(monto.value))) {
+        if (isNaN(monto.value)) {
+            monto.value = "";
+        }else{
+            if (monto.value <= 0) {
+                monto.value = monto.value*-1;
+                
+            }
+            monto.value = parseFloat(monto.value).toFixed(2);
+        }
+        
+        
+    }
+    
+}
         window.onload = setup;
 
         
