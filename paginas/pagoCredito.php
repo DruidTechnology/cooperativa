@@ -15,7 +15,7 @@
                                                 <select data-placeholder="Choose a Country..." class="chosen-select" tabindex="-1">
                                                         <option value="">Seleccionar</option>
                                                         <option value="United Arab Emirates">Roberto Santarrosa</option>
-														<option value="United Kingdom">Maria de los angeles ayala/option>
+														<option value="United Kingdom">Maria de los angeles ayala</option>
 														<option value="United States">Pedrito Cocolito</option>
 														<option value="United States Minor Outlying Islands">Susana Fidelina</option>
 														<option value="Uruguay">Federico Gomez</option>
