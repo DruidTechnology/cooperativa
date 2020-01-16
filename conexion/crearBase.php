@@ -4,6 +4,7 @@
     $pass="";
     $server="localhost";
     $db="saco_db";
+    $sql="";
 
     $conexion = new mysqli($server,$user,$pass);
     if ($conexion->connect_error) {
