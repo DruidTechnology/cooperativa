@@ -36,10 +36,21 @@
         );";
         $sqlTUsuario ="CREATE TABLE usuarios(
             id INT(11) AUTO_INCREMENT PRIMARY KEY,
-            nombre VARCHAR(50) NOT NULL,
-            username VARCHAR(50) NOT NULL,
+            usuario VARCHAR(50) NOT NULL,
             password VARCHAR(100) NOT NULL,
-            rol VARCHAR(50) NOT NULL,
+            nombre VARCHAR(50) NOT NULL,
+            correo VARCHAR(50) NOT NULL,
+            last_session DATETIME NULL DEFAULT NULL;
+            activacion INT(11) NOT NULL,
+            token VARCHAR(50) NOT NULL,
+            token_password VARCHAR(100) NULL,
+            password_request INT(11) NOT NULL DEFAULT '0',
+            id_tipo INT(11) NOT NULL,
+            timestamp TIMESTAMP
+        );";
+        $sqlTipoUsu="CREATE TABLE tipo_usuario(
+            id INT(11) AUTO_INCREMENT PRIMARY KEY,
+            tipo VARCHAR(50) NOT NULL,
             timestamp TIMESTAMP
         );";
         $sqlTB="CREATE TABLE beneficiario(
@@ -93,7 +104,7 @@
         $sqlAlter = "ALTER TABLE `pago` ADD UNIQUE `unique_index`(`mespago`, `anniopago`, `id_afiliado`);";
         $sqlAdmin = "INSERT INTO usuarios(nombre, username, password, rol)
         VALUES('Administrador','admin','$md5pass','Administrador')";
-        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTF) === TRUE && $conexionT->query($sqlTUsuario) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE && $conexionT->query($sqlAdmin) === TRUE) {
+        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTF) === TRUE && $conexionT->query($sqlTUsuario) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE && $conexionT->query($sqlAdmin) === TRUE && $conexionT->query($sqlTipoUsu) === TRUE) {
             # code...
 
             echo "Tabla Creada exitosamente.";

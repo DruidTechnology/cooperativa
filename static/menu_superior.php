@@ -15,7 +15,7 @@
                                     <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
                                         <div class="header-top-menu tabl-d-n">
                                             <ul class="nav navbar-nav mai-top-nav">
-                                                <li class="nav-item"><a href="#" class="nav-link">Inicio</a>
+                                                <li class="nav-item"><a href="/SACO/" class="nav-link">Inicio</a>
                                                 </li>
                                                 <li class="nav-item"><a href="#" class="nav-link">Acerca de</a>
                                                 </li>
@@ -36,8 +36,11 @@
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu"> 
                                                 <li class="nav-item">
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-															<img src="img/product/pro4.jpg" alt="" />
-															<span class="admin-name"><?php echo $user->getNombre();  ?></span>
+															<!--<img src="img/product/pro4.jpg" alt="" />-->
+                                                            <?php
+
+                                                            ?>
+															<span class="admin-name">Administrador</span>
 															<i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
 														</a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
@@ -46,7 +49,7 @@
                                                         <li><a href="#"><span class="edu-icon edu-user-rounded author-log-ic"></span>Mi Perfil</a>
                                                         <li><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Opciones</a>
                                                         </li>
-                                                        <li class="cerrar-sesion"><a href=".../includes/logout.php"><span class="edu-icon edu-locked author-log-ic"></span>Salir</a>
+                                                        <li><a href="includes/logout.php"><span class="edu-icon edu-locked author-log-ic"></span>Salir</a>
                                                         </li>
                                                     </ul>
                                                 </li>
