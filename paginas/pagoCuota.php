@@ -94,11 +94,26 @@
                 $checkear_meses = 0;
             }
   
-            
+            $factura_date = date("Y-m-d");
+                
+                $sqlPRT = "INSERT INTO factura(id_Afiliado,fecha_factura,pago,total) VALUES('$id_a','$factura_date','$monto','$pago');";
+
+
+                
+                # code...
+
+                $conexion->query($sqlPRT);
+                
+                $id_insert = $conexion->insert_id;
             $cambio = $monto-$pago;
-            if ($checkear_meses == 1) {
+            if ($checkear_meses == 1 && $id_insert > 0 ) {
                 $pagado_p = 1;
-                $sqlP ="INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota) VALUES";
+                
+                
+                
+                
+                
+                $sqlP ="INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota,factura,mora) VALUES";
                
               //  echo $numero_querys_p;
                 for($i = 0;$i <$numero_meses;$i++){
@@ -106,11 +121,15 @@
                     $date = strtotime($meses[$i]);
                     $mes_p = date("F",$date); 
                     $annio_p = date("Y",$date);
-                    
+                    $mora_p = 0;
+                    if ($pagos[$i] > "5") {
+                        $mora_p = 1; 
+                        # code...
+                    }
                     if($i+1 <$numero_meses){
-                        $sqlP = $sqlP . "('$mes_p','$annio_p','$pagado_p','$id_a','$pagado_p')" . ",";
+                        $sqlP = $sqlP . "('$mes_p','$annio_p','$pagado_p','$id_a','$pagado_p','$id_insert','$mora_p')" . ",";
                     }else{
-                        $sqlP = $sqlP . "('$mes_p','$annio_p','$pagado_p','$id_a','$pagado_p')";
+                        $sqlP = $sqlP . "('$mes_p','$annio_p','$pagado_p','$id_a','$pagado_p','$id_insert','$mora_p')";
                     }
                     
                      
@@ -120,6 +139,12 @@
          
                 $sqlP = $sqlP . ";";
                
+        
+              
+                
+            
+
+            
                 if ($conexion->query($sqlP) === TRUE) {
                     $a_name ="";
                     $a_lastname ="";
@@ -241,6 +266,7 @@
 
                 }else{
                 //     echo $sqlP;
+                    echo $sqlP;
                     die("Error no guarda".$conexion->error);
                 }
     
@@ -548,6 +574,8 @@
                                                
                                                     <button type="button" onclick="fill(this.id)" data-target="#exampleModal" data-toggle="modal" id="<?php echo $row['id'];?>" class="btn btn-custon-rounded-four btn-success" title="Pagar">
                                                     PAGAR</button>
+                                                    <a href="/SACO/facturas.php?id=<?php echo $row['id'];?>&action=factura" class="btn btn-custon-rounded-four btn-info" title="Dar de Alta">
+                                                    FACTURAS</a>
                                                     <?php
                                                     
                                                     }else{
@@ -790,7 +818,7 @@ function countmeses(fecthmeses,fecha_act) {
              fecha_iniciopagos.setMonth(fecha_iniciopagos.getMonth()+1);     
             // console.log(contmes);
              
-             console.log(fecha_iniciopagos);
+            // console.log(fecha_iniciopagos);
         let push = {
             annio: temp.annio,
             mes: temp.mes,
@@ -840,12 +868,14 @@ function getMesesP(id) {
                 
                 var pagos = JSON.parse(body);
               
+                console.log(pagos);
                 
                 var mesesapagar = countmeses(pagos,fecha_activacion_a);
-              
+                console.log(mesesapagar);
+                
                 var sel = document.getElementById('select_meses');
                 sel.innerHTML = '';
-              //  console.log(mesesapagar);
+           
                 
                 for (let index = 0; index < mesesapagar.length; index++) {
                    
