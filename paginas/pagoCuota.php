@@ -106,6 +106,7 @@
                 
                 $id_insert = $conexion->insert_id;
             $cambio = $monto-$pago;
+            
             if ($checkear_meses == 1 && $id_insert > 0 ) {
                 $pagado_p = 1;
                 
@@ -123,6 +124,7 @@
                     $annio_p = date("Y",$date);
                     $mora_p = 0;
                     if ($pagos[$i] > "5") {
+                        
                         $mora_p = 1; 
                         # code...
                     }
@@ -373,6 +375,8 @@
                                                
                                                     <button type="button" onclick="fill(this.id)" data-target="#exampleModal" data-toggle="modal" id="<?php echo $row['id'];?>" class="btn btn-custon-rounded-four btn-success" title="Pagar">
                                                     PAGAR</button>
+                                                    <a href="/SACO/facturas.php?id=<?php echo $row['id'];?>&action=factura" class="btn btn-custon-rounded-four btn-info" title="Dar de Alta">
+                                                    FACTURA</a>
                                                     <?php
                                                     
                                                     }else{
@@ -478,6 +482,8 @@
                                                
                                                     <button type="button" onclick="fill(this.id)" data-target="#exampleModal" data-toggle="modal" id="<?php echo $row['id'];?>" class="btn btn-custon-rounded-four btn-success" title="Pagar">
                                                     PAGAR</button>
+                                                    <a href="/SACO/facturas.php?id=<?php echo $row['id'];?>&action=factura" class="btn btn-custon-rounded-four btn-info" title="Dar de Alta">
+                                                    FACTURA</a>
                                                     <?php
                                                     
                                                     }else{
@@ -575,7 +581,7 @@
                                                     <button type="button" onclick="fill(this.id)" data-target="#exampleModal" data-toggle="modal" id="<?php echo $row['id'];?>" class="btn btn-custon-rounded-four btn-success" title="Pagar">
                                                     PAGAR</button>
                                                     <a href="/SACO/facturas.php?id=<?php echo $row['id'];?>&action=factura" class="btn btn-custon-rounded-four btn-info" title="Dar de Alta">
-                                                    FACTURAS</a>
+                                                    FACTURA</a>
                                                     <?php
                                                     
                                                     }else{

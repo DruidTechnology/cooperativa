@@ -80,7 +80,10 @@ echo "        <tbody>";
                             $p_mes = $row3['mesPago'];
                             $p_annio = $row3['annioPago'];
                             $mora_p = $row3['mora'];
-                            if ($mora == 1) {
+                            $totalmes = 5;
+
+                            if ($mora_p == 1) {
+                                $totalmes = 5 + 5*0.07;
                                 $mora_p = 0.35;
                             }else{
                                 $mora_p=0;
@@ -94,7 +97,7 @@ echo "        <tbody>";
                             echo "                    <td>5</td>";
                             echo "                    <td>$date_p</td>";
                             echo "                    <td>$mora_p</td>";
-                            echo "                    <td>$id_p</td>";
+                            echo "                    <td>$totalmes</td>";
                             echo "                </tr>";
                             
                             
