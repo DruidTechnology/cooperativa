@@ -37,7 +37,7 @@
                                                 <li class="nav-item">
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
 															<img src="img/product/pro4.jpg" alt="" />
-															<span class="admin-name">Administrador</span>
+															<span class="admin-name"><?php echo $user->getNombre();  ?></span>
 															<i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
 														</a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
@@ -46,7 +46,7 @@
                                                         <li><a href="#"><span class="edu-icon edu-user-rounded author-log-ic"></span>Mi Perfil</a>
                                                         <li><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Opciones</a>
                                                         </li>
-                                                        <li><a href="#"><span class="edu-icon edu-locked author-log-ic"></span>Salir</a>
+                                                        <li class="cerrar-sesion"><a href=".../includes/logout.php"><span class="edu-icon edu-locked author-log-ic"></span>Salir</a>
                                                         </li>
                                                     </ul>
                                                 </li>
