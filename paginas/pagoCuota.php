@@ -837,6 +837,7 @@ function countmeses(fecthmeses,fecha_act) {
    // fecha_iniciopagos.setMonth(fecha_activacion.getMonth()+1);
     fecha_iniciopagos.setDate(15);
     var now= new Date();
+    var now3= new Date();
    // console.log(now);
     console.log(fecha_iniciopagos);
     
@@ -858,17 +859,29 @@ function countmeses(fecthmeses,fecha_act) {
             
             
              contmes++;
-             fecha_iniciopagos.setMonth(fecha_iniciopagos.getMonth()+1);     
-            // console.log(contmes);
-             
-            // console.log(fecha_iniciopagos);
-        let push = {
+             let push = {
             annio: temp.annio,
             mes: temp.mes,
             day: temp.day
         }
+             if (fecha_iniciopagos.getMonth()==now3.getMonth()  && now3.getFullYear() == fecha_iniciopagos.getFullYear()) {
+                    if (now3.getDate() >= 15) {
+                        mesesp.push(push);
+                    }
+                }else{
+                    mesesp.push(push);
+                }
+         
+        
+           
+             fecha_iniciopagos.setMonth(fecha_iniciopagos.getMonth()+1);     
+            // console.log(contmes);
+             
+            // console.log(fecha_iniciopagos);
+      
       //  console.log(push); 
-        mesesp.push(push);     
+       
+         
     }
     for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < mesesp.length; j++) {
