@@ -38,7 +38,7 @@
             id INT(11) AUTO_INCREMENT PRIMARY KEY,
             nombre VARCHAR(50) NOT NULL,
             username VARCHAR(50) NOT NULL,
-            password VARCHAR(25) NOT NULL,
+            password VARCHAR(100) NOT NULL,
             timestamp TIMESTAMP
         );";
         $sqlTB="CREATE TABLE beneficiario(
@@ -90,7 +90,7 @@
 
         $sqlICA ="INSERT INTO cuota(montoCuota) VALUES(5);";
         $sqlAlter = "ALTER TABLE `pago` ADD UNIQUE `unique_index`(`mespago`, `anniopago`, `id_afiliado`);";
-        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE) {
+        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTUsuario) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE) {
             # code...
             if($conexionT->query($sqlICA) === TRUE){
                 #echo "Insert correcto";
