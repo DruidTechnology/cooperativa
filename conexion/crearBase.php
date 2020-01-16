@@ -58,6 +58,16 @@
             montoCuota INT(25) NOT NULL,            
             timestamp TIMESTAMP
         );";
+        
+        $sqlTF="CREATE TABLE factura(
+            id INT(11) AUTO_INCREMENT PRIMARY KEY,
+            id_Afiliado INT(11) NOT NULL,
+            fecha_factura DATE NOT NULl,
+
+            pago FLOAT(50),
+            total FLOAT(50),
+            timestamp TIMESTAMP
+        );";
         $sqlTP="CREATE TABLE pago(
             id INT(11) AUTO_INCREMENT PRIMARY KEY, 
             mesPago VARCHAR(10) NOT NULL,
@@ -65,6 +75,9 @@
             pagado BOOLEAN,
             id_Afiliado INT(11),
             id_cuota INT(11),
+            
+            factura INT(11),
+            mora BOOLEAN,
             timestamp TIMESTAMP
         );";
 

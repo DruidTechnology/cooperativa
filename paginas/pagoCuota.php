@@ -1,3 +1,5 @@
+<div class="container-fluid">
+        
         <!-- Static Table Start -->
         <?php 
         if (isset($_GET['action']) && $_GET['action'] == 'Pagar') {
@@ -94,23 +96,44 @@
                 $checkear_meses = 0;
             }
   
-            
+            $factura_date = date("Y-m-d");
+                
+                $sqlPRT = "INSERT INTO factura(id_Afiliado,fecha_factura,pago,total) VALUES('$id_a','$factura_date','$monto','$pago');";
+
+
+                
+                # code...
+
+                $conexion->query($sqlPRT);
+                
+                $id_insert = $conexion->insert_id;
             $cambio = $monto-$pago;
-            if ($checkear_meses == 1) {
+            
+            if ($checkear_meses == 1 && $id_insert > 0 ) {
                 $pagado_p = 1;
-                $sqlP ="INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota) VALUES";
+                
+                
+                
+                
+                
+                $sqlP ="INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota,factura,mora) VALUES";
                
-              //  echo $numero_querys_p;
+             
                 for($i = 0;$i <$numero_meses;$i++){
                     
                     $date = strtotime($meses[$i]);
                     $mes_p = date("F",$date); 
                     $annio_p = date("Y",$date);
-                    
+                    $mora_p = 0;
+                    if ($pagos[$i] > "5") {
+                        
+                        $mora_p = 1; 
+         
+                    }
                     if($i+1 <$numero_meses){
-                        $sqlP = $sqlP . "('$mes_p','$annio_p','$pagado_p','$id_a','$pagado_p')" . ",";
+                        $sqlP = $sqlP . "('$mes_p','$annio_p','$pagado_p','$id_a','$pagado_p','$id_insert','$mora_p')" . ",";
                     }else{
-                        $sqlP = $sqlP . "('$mes_p','$annio_p','$pagado_p','$id_a','$pagado_p')";
+                        $sqlP = $sqlP . "('$mes_p','$annio_p','$pagado_p','$id_a','$pagado_p','$id_insert','$mora_p')";
                     }
                     
                      
@@ -120,6 +143,7 @@
          
                 $sqlP = $sqlP . ";";
                
+
                 if ($conexion->query($sqlP) === TRUE) {
                     $a_name ="";
                     $a_lastname ="";
@@ -138,7 +162,7 @@
                          
                     
                     }
-                    $fullname = $a_name . $a_lastname;
+                    $fullname = $a_name . " ". $a_lastname;
                     $bill_date = date("d-m-Y H:i:s");
         
                     # code...
@@ -148,13 +172,14 @@
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
-                    echo "<div id='totalfact'>";
+                  
+                    echo "<div class='container-fluid' id='totalfact'>";
                     echo"<div class='row'>";
-                    echo "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
+                    echo "<div class='.col-xs-12 .col-sm-6 .col-md-8'>";
                     echo "                        <div id ='factContainer'>";
                     echo "                <div id='factura'>  "   ;               
                     echo "                <h3>SACO</h3>";
-                    echo "                <table class='table'>";
+                    echo "                <table class='table  table-bordered'>";
                     echo "                    <tr>";
                     echo "                        <th>Cliente: </th>";
                    
@@ -174,7 +199,7 @@
 
                     
                     echo "                </table>";
-                    echo "                <table class='table'>";
+                    echo "                <table class='table table-bordered table-striped'>";
                     echo "                <thead>";
                     echo "                    <tr>";
                     echo "                    <th scope='col'>Cuota</th>";
@@ -226,13 +251,55 @@
                     echo "<td >$cambio</td>";
                     
                     echo "                </tr>";
+                    echo "                </tr>";
+               
                     echo "                </tbody>";
                     echo "                </table>";
                     echo "            </div>";
                     echo "           </div>";
-                    echo "<button type='button' class='btn btn-info' onclick='PrintElem(this)'>Imprimir</button>";
-                    echo "<button type='button' class='btn btn-warning' onclick='delFact(this)'>Cerrar</button>";
+
                     echo "           </div>";
+                    ?>
+                    <div class= ".col-xs-6 .col-md-4">
+                    
+                    <div class='.container-fluid'>
+                    <div class='row'>
+                    <div class="col-xs-1">
+                    <button type='button' class='btn btn-info' onclick='PrintElem(this)'>Imprimir</button>
+                    </div>
+                    <div class="col-xs-1">
+                    <button type='button' class='btn btn-warning' onclick='delFact(this)'>Cerrar</button>
+                    </div>
+             
+                    <div class='col-md-1'>
+
+                    <div class='.container-fluid'>
+                    <div class='row'>
+                    <div class='col-md-1'>
+                  
+                    </div>
+                    </div>
+
+                    <div class='row'>
+                    <div class='col-md-1'>
+                    
+                    </div>
+                    </div>
+                    </div>
+                    
+
+
+                    </div>
+
+
+                    </div>
+                    
+
+                    </div>
+                    </div>
+                 
+                    </div>
+                    <?php
                     echo "           </div>";
                     echo "           </div>";
                     
@@ -241,6 +308,7 @@
 
                 }else{
                 //     echo $sqlP;
+                    echo $sqlP;
                     die("Error no guarda".$conexion->error);
                 }
     
@@ -263,17 +331,17 @@
           
 
         ?>
-
+</div>
 <nav class="nav">
 
   <div class="btn btn-primar payment-adress" id="myTabedu1">
-            <a class="nav-link " href="#aldia">Al Dia</a>
+            <a class="navbar-brand " href="#aldia">Al Dia</a>
     </div>
     <div class="btn btn-primar payment-adress" id="myTabedu1">
-            <a class="nav-link " href="#mora">Mora</a>
+            <a class="navbar-brand " href="#mora">Mora</a>
     </div>
     <div class="btn btn-primar payment-adress" id="myTabedu1">
-            <a class="nav-link " href="#incobrable">incobrable</a>
+            <a class="navbar-brand" href="#incobrable">incobrable</a>
     </div>
 
 </nav>
@@ -325,9 +393,9 @@
                                             
 
                                             if ($resultado->num_rows > 0) {
-                                                # code...
+                                             
                                                 while($row = $resultado->fetch_assoc()){
-                                                    //var_dump($row);
+                                                  
                                                     
                                                     ?>
                                                 
@@ -342,17 +410,18 @@
                                                 <td>
                                                     <?php 
                                                     if ($row['estadoAfiliado'] == '1') {
-                                                        # code...
+                                           
                                                     ?>
                                                
                                                     <button type="button" onclick="fill(this.id)" data-target="#exampleModal" data-toggle="modal" id="<?php echo $row['id'];?>" class="btn btn-custon-rounded-four btn-success" title="Pagar">
                                                     PAGAR</button>
+                                                    <a href="/SACO/facturas.php?id=<?php echo $row['id'];?>&action=factura" class="btn btn-custon-rounded-four btn-info" title="Dar de Alta">
+                                                    FACTURA</a>
                                                     <?php
                                                     
                                                     }else{
                                                     ?>
-                                                    <a href="/SACO/listaAfiliados.php?id=<?php echo $row['id'];?>&action=DarAlta" class="btn btn-custon-rounded-four btn-success" title="Dar de Alta">
-                                                    <i class="fa fa-level-up"></i></a>
+                                  
                                                     
                                                     <?php
                                                     }
@@ -452,12 +521,13 @@
                                                
                                                     <button type="button" onclick="fill(this.id)" data-target="#exampleModal" data-toggle="modal" id="<?php echo $row['id'];?>" class="btn btn-custon-rounded-four btn-success" title="Pagar">
                                                     PAGAR</button>
+                                                    <a href="/SACO/facturas.php?id=<?php echo $row['id'];?>&action=factura" class="btn btn-custon-rounded-four btn-info" title="Dar de Alta">
+                                                    FACTURA</a>
                                                     <?php
                                                     
                                                     }else{
                                                     ?>
-                                                    <a href="/SACO/listaAfiliados.php?id=<?php echo $row['id'];?>&action=DarAlta" class="btn btn-custon-rounded-four btn-success" title="Dar de Alta">
-                                                    <i class="fa fa-level-up"></i></a>
+                                         
                                                     
                                                     <?php
                                                     }
@@ -548,12 +618,13 @@
                                                
                                                     <button type="button" onclick="fill(this.id)" data-target="#exampleModal" data-toggle="modal" id="<?php echo $row['id'];?>" class="btn btn-custon-rounded-four btn-success" title="Pagar">
                                                     PAGAR</button>
+                                                    <a href="/SACO/facturas.php?id=<?php echo $row['id'];?>&action=factura" class="btn btn-custon-rounded-four btn-info" title="Dar de Alta">
+                                                    FACTURA</a>
                                                     <?php
                                                     
                                                     }else{
                                                     ?>
-                                                    <a href="/SACO/listaAfiliados.php?id=<?php echo $row['id'];?>&action=DarAlta" class="btn btn-custon-rounded-four btn-success" title="Dar de Alta">
-                                                    <i class="fa fa-level-up"></i></a>
+                                
                                                     
                                                     <?php
                                                     }
@@ -766,6 +837,7 @@ function countmeses(fecthmeses,fecha_act) {
    // fecha_iniciopagos.setMonth(fecha_activacion.getMonth()+1);
     fecha_iniciopagos.setDate(15);
     var now= new Date();
+    var now3= new Date();
    // console.log(now);
     console.log(fecha_iniciopagos);
     
@@ -787,17 +859,29 @@ function countmeses(fecthmeses,fecha_act) {
             
             
              contmes++;
-             fecha_iniciopagos.setMonth(fecha_iniciopagos.getMonth()+1);     
-            // console.log(contmes);
-             
-             console.log(fecha_iniciopagos);
-        let push = {
+             let push = {
             annio: temp.annio,
             mes: temp.mes,
             day: temp.day
         }
+             if (fecha_iniciopagos.getMonth()==now3.getMonth()  && now3.getFullYear() == fecha_iniciopagos.getFullYear()) {
+                    if (now3.getDate() >= 15) {
+                        mesesp.push(push);
+                    }
+                }else{
+                    mesesp.push(push);
+                }
+         
+        
+           
+             fecha_iniciopagos.setMonth(fecha_iniciopagos.getMonth()+1);     
+            // console.log(contmes);
+             
+            // console.log(fecha_iniciopagos);
+      
       //  console.log(push); 
-        mesesp.push(push);     
+       
+         
     }
     for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < mesesp.length; j++) {
@@ -840,12 +924,14 @@ function getMesesP(id) {
                 
                 var pagos = JSON.parse(body);
               
+                console.log(pagos);
                 
                 var mesesapagar = countmeses(pagos,fecha_activacion_a);
-              
+                console.log(mesesapagar);
+                
                 var sel = document.getElementById('select_meses');
                 sel.innerHTML = '';
-              //  console.log(mesesapagar);
+           
                 
                 for (let index = 0; index < mesesapagar.length; index++) {
                    
