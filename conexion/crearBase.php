@@ -34,6 +34,13 @@
             fechaIngreso VARCHAR(10) NOT NULL,
             timestamp TIMESTAMP
         );";
+        $sqlTUsuario ="CREATE TABLE usuarios(
+            id INT(11) AUTO_INCREMENT PRIMARY KEY,
+            nombre VARCHAR(50) NOT NULL,
+            username VARCHAR(50) NOT NULL,
+            password VARCHAR(25) NOT NULL,
+            timestamp TIMESTAMP
+        );";
         $sqlTB="CREATE TABLE beneficiario(
             id INT(11) AUTO_INCREMENT PRIMARY KEY,
             nombreBeneficiario VARCHAR(50) NOT NULL,
