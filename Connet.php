@@ -14,7 +14,7 @@ const BD = "saco_db";
 const PASS = "";
 
 //Carpeta donde se almacenaran las copias de seguridad
-const BACKUP_PATH =  "../backup/";
+const BACKUP_PATH =  "backup/";
 
 /*Configuración de zona horaria de tu país para más información visita
     http://php.net/manual/es/function.date-default-timezone-set.php

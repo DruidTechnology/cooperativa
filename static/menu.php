@@ -40,14 +40,6 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="has-arrow" href="all-students.html" aria-expanded="false"><span class="icon-chart-line"></span> <span class="mini-click-non">Estadisticas</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Aportaciones" href="estadisticasAportacion.php"><span class="mini-sub-pro">Aportaciones</span></a></li>
-                                <li><a title="Afiliados" href="#"><span class="mini-sub-pro">Afiliados</span></a></li>
-                                <li><a title="Creditos" href="#"><span class="mini-sub-pro">Creditos</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
                             <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="icon-user-plus"></span> <span class="mini-click-non">Usuario Sistema</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Registar" href="#"><span class="mini-sub-pro">Registrar</span></a></li>
@@ -60,14 +52,12 @@
                             <li><a title="Cambio de Usuario" href="#"><span class="mini-sub-pro">Cambio de Usuario</span></a></li>
                             <li><a title="Cambio Contraseña" href="#"><span class="mini-sub-pro">Cambio Contraseña</span></a></li>
                             <li><a title="Listado de Usuario" href="#"><span class="mini-sub-pro">Listado de Usuario</span></a></li>
-                            <li><a title="Modificacion Interes" href="#"><span class="mini-sub-pro">Modificacion Interes</span></a></li>
                             </ul>
                         </li>
                         <li>
                             <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="icon-key"></span> <span class="mini-click-non">Seguridad</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Generar Backup" href="backupindex.php"><span class="mini-sub-pro">Generar Backup</span></a></li>
-                                <li><a title="Lisado de Backup" href="#"><span class="mini-sub-pro">Listado de Backup</span></a></li>
                                 <li><a title="Bitacora" href="#"><span class="mini-sub-pro">Bitacora</span></a></li>
                             </ul>
                         </li>

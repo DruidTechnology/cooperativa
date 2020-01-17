@@ -6,7 +6,7 @@
             
         </ul>
         
-        <form action="/SACO/" enctype="multipart/form-data" onsubmit="return percent()"  method="POST">
+        <form action="/SACO/registroAfiliado.php" enctype="multipart/form-data" onsubmit="return percent()"  method="POST">
         <?php
     
         //Declaracion de todas las variables

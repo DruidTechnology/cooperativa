@@ -12,7 +12,7 @@
                                         </div>
 
 
-<form action="php/Restore.php" method="POST">
+<form action="Restore.php" method="POST">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<div class="sparkline10-list mg-tb-30 responsive-mg-t-0 table-mg-t-pro-n dk-res-t-pro-0 nk-ds-n-pro-t-0">
             <div class="sparkline10-hd">
@@ -26,10 +26,10 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="chosen-select-single mg-b-20">
                                 <label>Seleccione un punto de restauracion</label>
-                                <select name="restorePoint" data-placeholder="Backup" class="chosen-select" tabindex="-1">
+                                <select name="restorePoint" id="restorePoint" data-placeholder="Backup" class="chosen-select" tabindex="-1">
 								<?php
-				include_once 'php/Connet.php';
-				$ruta='./backup/';
+				include_once 'Connet.php';
+				$ruta=BACKUP_PATH;
 				if(is_dir($ruta)){
 				    if($aux=opendir($ruta)){
 				        while(($archivo = readdir($aux)) !== false){
