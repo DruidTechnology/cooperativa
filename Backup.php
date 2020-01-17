@@ -1,5 +1,5 @@
 <?php
-include './Connet.php';
+include 'Connet.php';
 $day=date("d");
 $mont=date("m");
 $year=date("Y");
