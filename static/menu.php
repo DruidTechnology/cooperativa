@@ -27,23 +27,23 @@
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Nuevo" href="/SACO/nuevoCredito.php"><span class="mini-sub-pro">Nuevo</span></a></li>
                                 <li><a title="Pago" href="pagoCredito.php"><span class="mini-sub-pro">Pago</span></a></li>
-                                <li><a title="Listado" href="a#"><span class="mini-sub-pro">Listado</span></a></li>
+                                <li><a title="Listado" href="listadoCredito.php"><span class="mini-sub-pro">Listado</span></a></li>
                                 <li><a title="Reporte" href="#"><span class="mini-sub-pro">Reporte</span></a></li>
                             </ul>
                         </li>
-                        <li>
+                        <!--<li>
                             <a class="has-arrow" href="all-students.html" aria-expanded="false"><span class="icon-percent"></span> <span class="mini-click-non">Aportaciones</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Registro" href="registrarAportaciones.php"><span class="mini-sub-pro">Registro</span></a></li>
                                 <li><a title="Listado" href="#"><span class="mini-sub-pro">Listado</span></a></li>
                                 <li><a title="Reporte" href="#"><span class="mini-sub-pro">Reporte</span></a></li>
                             </ul>
-                        </li>
+                        </li>-->
                         <li>
                             <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="icon-user-plus"></span> <span class="mini-click-non">Usuario Sistema</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Registar" href="registroUsu.php"><span class="mini-sub-pro">Registrar</span></a></li>
-                                <li><a title="Listado" href="listadoBitacora.php"><span class="mini-sub-pro">Listado</span></a></li>
+                                <li><a title="Listado" href="listadoUsuario.php"><span class="mini-sub-pro">Listado</span></a></li>
                             </ul>
                         </li>
                         <li>
