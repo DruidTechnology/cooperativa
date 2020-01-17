@@ -124,9 +124,9 @@
         $gen = md5(uniqid(mt_rand(), false));
         $sqlICA ="INSERT INTO cuota(montoCuota) VALUES(5);";
         $sqlAlter = "ALTER TABLE `pago` ADD UNIQUE `unique_index`(`mespago`, `anniopago`, `id_afiliado`);";
-        $sqlTipo = "INSERT INTO tipo_usuario(tipo) VALUES('Administrador'),('Usuario Comun')";
+        $sqlTipo = "INSERT INTO tipo_usuario(tipo) VALUES('Administrador'),('Usuario Comun');";
         $sqlAdminUsu = "INSERT INTO usuarios(usuario, password,nombre,correo,activacion,token, id_tipo)
-        VALUES('admin','$md5pass','AdministradorSACO','monterrosadelgado@gmail.com','1','$gen','1')";
+        VALUES('admin','$md5pass','AdministradorSACO','monterrosadelgado@gmail.com','1','$gen','1');";
         
         if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTF) === TRUE && $conexionT->query($sqlTUsuario) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE && $conexionT->query($sqlTipoUsu) === TRUE && $conexionT->query($sqlAdminUsu) === TRUE && $conexionT->query($sqlTipo) === TRUE && $conexionT->query($sqlTPC) === TRUE && $conexionT->query($sqlTCredito)=== TRUE && $conexionT->query($sqlICredito)=== TRUE ) {
             # code...
