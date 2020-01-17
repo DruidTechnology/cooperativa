@@ -69,6 +69,7 @@
             tasaInteres INT(10) NOT NULL,
             plazo VARCHAR(30) NOT NULL,
             pagoMensual FLOAT(50) NOT NULL,
+            tipo INT(11) NOT NULL,
             id_Afiliado INT(11),         
             timestamp TIMESTAMP
         );";
@@ -86,6 +87,13 @@
             total FLOAT(50),
             timestamp TIMESTAMP
         );";
+        $sqlTCredito="CREATE TABLE tipoCredito(
+            id INT(11) AUTO_INCREMENT PRIMARY KEY,
+            tipo VARCHAR(30) NOT NULL,
+            
+            timestamp TIMESTAMP
+        );";
+
         $sqlTP="CREATE TABLE pago(
             id INT(11) AUTO_INCREMENT PRIMARY KEY, 
             mesPago VARCHAR(10) NOT NULL,
@@ -98,16 +106,29 @@
             mora BOOLEAN,
             timestamp TIMESTAMP
         );";
+        $sqlTPC="CREATE TABLE pagoCredito(
+            id INT(11) AUTO_INCREMENT PRIMARY KEY, 
+            mesPago VARCHAR(10) NOT NULL,
+            annioPago VARCHAR(10) NOT NULL,
+            pagado BOOLEAN,
+            id_credito INT(11),
+            factura INT(11),
+            timestamp TIMESTAMP
+        );";
+
+        $sqlICredito ="INSERT INTO tipoCredito(tipo) VALUES('prestamo'),('ahorro'),('credito extraordinario');";
+        
+
         $string = "admin";
         $md5pass = md5($string);
         $gen = md5(uniqid(mt_rand(), false));
         $sqlICA ="INSERT INTO cuota(montoCuota) VALUES(5);";
         $sqlAlter = "ALTER TABLE `pago` ADD UNIQUE `unique_index`(`mespago`, `anniopago`, `id_afiliado`);";
-        $sqlTipo = "INSERT INTO tipo_usuario(tipo) VALUES('Administrador')";
+        $sqlTipo = "INSERT INTO tipo_usuario(tipo) VALUES('Administrador'),('Usuario Comun');";
         $sqlAdminUsu = "INSERT INTO usuarios(usuario, password,nombre,correo,activacion,token, id_tipo)
-        VALUES('admin','$md5pass','AdministradorSACO','monterrosadelgado@gmail.com','1','$gen','1')";
+        VALUES('admin','$md5pass','AdministradorSACO','monterrosadelgado@gmail.com','1','$gen','1');";
         
-        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTF) === TRUE && $conexionT->query($sqlTUsuario) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE && $conexionT->query($sqlTipoUsu) === TRUE && $conexionT->query($sqlAdminUsu) === TRUE && $conexionT->query($sqlTipo) === TRUE ) {
+        if ($conexionT->query($sqlTA) === TRUE && $conexionT->query($sqlTF) === TRUE && $conexionT->query($sqlTUsuario) === TRUE && $conexionT->query($sqlTB) === TRUE && $conexionT->query($sqlTC) === TRUE && $conexionT->query($sqlTCA) === TRUE && $conexionT->query($sqlTP) === TRUE && $conexionT->query($sqlAlter)===TRUE && $conexionT->query($sqlTipoUsu) === TRUE && $conexionT->query($sqlAdminUsu) === TRUE && $conexionT->query($sqlTipo) === TRUE && $conexionT->query($sqlTPC) === TRUE && $conexionT->query($sqlTCredito)=== TRUE && $conexionT->query($sqlICredito)=== TRUE ) {
             # code...
 
             echo "Tabla Creada exitosamente.";
