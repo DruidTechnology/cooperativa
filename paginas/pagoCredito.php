@@ -136,13 +136,17 @@
             }
    
             $pagos = $numero_meses*$creditoPagom;
+            
+            $pagos = floor($pagos*100)/100;
             $sum_pagos = $pagos;
-            $sum_pagos2 =  strval( $sum_pagos);
 
+          
+            $sum_pagos2 =  strval( $sum_pagos);
 
             $monto2 =  strval( $monto);
             
            $pago2 =  strval( $pago);
+        
     
             if ( $sum_pagos2 != $pago2 ) {
                 $checkear_meses = 0;
@@ -597,7 +601,9 @@
                         
                         $datep =   date("d-m-Y",strtotime($meses[$i]));
                                 echo "                <tr>";
-                            echo "                    <td>5</td>";
+                                $creditoPagom= floor($creditoPagom*100)/100;
+                                echo "                    <td>$creditoPagom</td>";
+                            
                             echo "                    <td>$datep</td>";
                             echo "                    <td>$mora</td>";
                             echo "                    <td>$creditoPagom</td>";
@@ -1169,8 +1175,7 @@ function setTwoNumberDecimal(monto) {
                     cuota = 5;
                     check_mora_date.setDate(check_mora_date.getDate() + 15);
                     check_mora_date.setMonth(check_mora_date.getMonth() + 1);
-                   // console.log(check_mora_date);
-                  //  console.log(nowss);
+        
                     if(check_mora_date < nowss){
                         array_pagos_monto.push(cuota + cuota*0.07);
                     }else{
@@ -1182,7 +1187,7 @@ function setTwoNumberDecimal(monto) {
         var selecteds =[];
         var lst;
         var total = 0;
-        console.log(temp[1]);
+     
         selecteds = document.getElementById('select_meses').getElementsByTagName('option');
         for(i=0; i < selecteds.length; i++){
             if(selecteds[i].selected){
@@ -1195,7 +1200,7 @@ function setTwoNumberDecimal(monto) {
             
             total += parseFloat(temp[1]);
              
-           // console.log(array_pagos_monto);
+   
             
             total =Math.round(total * 100) / 100 
             
@@ -1238,11 +1243,11 @@ function fill(id){
     sel.innerHTML = "";
     sel = document.getElementById('creditos');
     sel.innerHTML = "";
-    //getMesesP(id);
+    
 }
 var temp = "";
 function getMesesP(id) {
-   
+    
     var url = `/SACO/fetch.php?id=${id}&action=credito`;
     fetch(url)
         .then(function (response) {
@@ -1255,17 +1260,17 @@ function getMesesP(id) {
             var mesesapagar = [];
             if (meses[4] == null) {
                  dates  =  new Date(Date.parse(meses[3])); 
-                 console.log(dates);
+            
                  
                  var inputdate = `${dates.getFullYear()}-${dates.getMonth()+1}-${dates.getDate()}`;
                  
                  $('#fechaC').val(inputdate);
             
-            console.log(dates);
+            
                  dates.setMonth(dates.getMonth()+1);
                  dates.setDate(15);
             }else{
-                console.log(dates);
+            
                  dates  =  new Date(Date.parse(meses[4])); 
                  var inputdate = `${dates.getFullYear()}-${dates.getMonth()+1}-${dates.getDate()}`;
                  $('#fechaC').val(inputdate);
@@ -1296,16 +1301,13 @@ function getMesesP(id) {
 
 
                 dates.setMonth(dates.getMonth()+1);
-                //date = date.setMonth(date.getMonth()+1) ;
+            
                 
                 mesesapagar.push(temp2);
 
                 
             }
-            console.log(meses);
-            console.log(mesesapagar);
-          console.log(bodys);
-              
+   
             
     });
 
@@ -1313,18 +1315,17 @@ function getMesesP(id) {
 
 }
 function fillselect(p,tipo){
-    var tipo = tipo
-    
-    if (  document.getElementById("select_meses").disabled == true) {
-        tipo = 2;   
-    }
   
-    console.log(tipo);
+
+
     
     $('#id_Credito').val(p);
     if (tipo == 2) {
         ahoro(p);
     }else{
+        
+        
+        document.getElementById("select_meses").disabled = false;
         document.getElementById("ingresar").disabled = true;
         getMesesP(p);
     }
@@ -1332,7 +1333,7 @@ function fillselect(p,tipo){
 }
 function ahoro(id) {
     tipo =2;
-    console.log("HERE");
+    
     document.getElementById("select_meses").disabled = true;
     document.getElementById("ingresar").disabled = false;
     var url=`/SACO/fetch.php?id=${id}&tipo=${tipo}&action=tipo2`;
@@ -1342,7 +1343,7 @@ function ahoro(id) {
     
      return response.text();
  }).then((boryss) => {
-    console.log(boryss);
+   
     var total=boryss;
     h3_pago = document.getElementById("totalPago2");
         h3_pagom = document.getElementById("totalPago3");
@@ -1358,9 +1359,8 @@ function ahoro(id) {
 
 function fillselectCreditos(tipo) {
     
-    console.log("hola");
-    var gg = document.getElementById('select_meses');
-    gg.innerHTML = "";
+    var blanck = document.getElementById('select_meses');
+    blanck.innerHTML = "";
     id = $('#modalte').val();
     var url=`/SACO/fetch.php?id=${id}&tipo=${tipo}&action=creditos`;
     fetch(url)
@@ -1390,7 +1390,7 @@ function fillselectCreditos(tipo) {
     
 
     } catch (e) {
-        console.log(myJson + "fd");
+        
         var sel = document.getElementById('creditos');
                     sel.innerHTML = '';
         return false;
