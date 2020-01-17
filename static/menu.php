@@ -25,7 +25,7 @@
                         <li>
                             <a class="has-arrow" href="all-professors.html" aria-expanded="false"><span class="icon-money"></span> <span class="mini-click-non">Creditos</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Nuevo" href="nuevoCredito.php"><span class="mini-sub-pro">Nuevo</span></a></li>
+                                <li><a title="Nuevo" href="/SACO/nuevoCredito.php"><span class="mini-sub-pro">Nuevo</span></a></li>
                                 <li><a title="Pago" href="pagoCredito.php"><span class="mini-sub-pro">Pago</span></a></li>
                                 <li><a title="Listado" href="a#"><span class="mini-sub-pro">Listado</span></a></li>
                                 <li><a title="Reporte" href="#"><span class="mini-sub-pro">Reporte</span></a></li>

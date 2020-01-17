@@ -1,4 +1,5 @@
 <?php
+include('conexion/conexion.php');
 include 'Connet.php';
 $restorePoint=SGBD::limpiarCadena($_POST['restorePoint']);
 $sql=explode(";",file_get_contents($restorePoint));

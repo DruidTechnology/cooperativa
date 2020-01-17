@@ -18,7 +18,7 @@
 
 @include("static/all/up.php");
 ?>
-
+<img src="img/a1.jpg" border="1" alt="Este es el ejemplo de un texto alternativo" width="900" height="1200">
 <?php
 
 @include("static/all/down.php");

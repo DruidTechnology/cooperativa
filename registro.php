@@ -64,9 +64,9 @@
 				if($registro > 0 )
 				{
 					
-					$url = 'http://'.$_SERVER["SERVER_NAME"].'/login/activar.php?id='.$registro.'&val='.$token;
+					$url = 'http://'.$_SERVER["SERVER_NAME"].'/SACO/activar.php?id='.$registro.'&val='.$token;
 					
-					$asunto = 'Activar Cuenta - Sistema de Usuarios';
+					$asunto = 'Activar Cuenta - Sistema SACO';
 					$cuerpo = "Estimado $nombre: <br /><br />Para continuar con el proceso de registro, es indispensable de click en la siguiente liga <a href='$url'>Activar Cuenta</a>";
 					
 					if(enviarEmail($email, $nombre, $asunto, $cuerpo)){
