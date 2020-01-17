@@ -1,8 +1,8 @@
 <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="index.html"><img class="main-logo" src="img/SACO.png" alt="" /></a>
-                <strong><a href="index.html"><img src="img/SACO.png" alt="" /></a></strong>
+                <a href="welcome.php"><img class="main-logo" src="img/SACO.png" alt="" /></a>
+                <strong><a href="welcome.php"><img src="img/SACO.png" alt="" /></a></strong>
             </div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
@@ -66,7 +66,7 @@
                         <li>
                             <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="icon-key"></span> <span class="mini-click-non">Seguridad</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Generar Backup" href="#"><span class="mini-sub-pro">Generar Backup</span></a></li>
+                                <li><a title="Generar Backup" href="backupindex.php"><span class="mini-sub-pro">Generar Backup</span></a></li>
                                 <li><a title="Lisado de Backup" href="#"><span class="mini-sub-pro">Listado de Backup</span></a></li>
                                 <li><a title="Bitacora" href="#"><span class="mini-sub-pro">Bitacora</span></a></li>
                             </ul>

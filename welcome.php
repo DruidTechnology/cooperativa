@@ -10,7 +10,7 @@
 	$sqlUsuario = "SELECT id,nombre FROM usuarios WHERE id= '$idUsuario'";
 	$resultUsu= $mysqli->query($sqlUsuario);
 
-	$row = $resultUsu->fetch_assoc();
+	$rowUsu = $resultUsu->fetch_assoc();
 	//Aqui va el código PHP del Vídeo
 ?>
 
