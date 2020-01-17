@@ -1,4 +1,5 @@
 <?php
+include('conexion/conexion.php');
 	session_start();
 	require 'funcs/conexion.php';
 	require 'funcs/funcs.php';
@@ -13,14 +14,16 @@
 	$rowUsu = $resultUsu->fetch_assoc();
 	//Aqui va el código PHP del Vídeo
 ?>
-
 <?php
 
 @include("static/all/up.php");
 ?>
-<center><img src="img/a1.jpg" border="1" alt="Este es el ejemplo de un texto alternativo" width="800" height="1200"></center>
+                    <?php
+
+@include("paginas/registro.php");
+?>
 
 <?php
 
 @include("static/all/down.php");
-?>	
+?>

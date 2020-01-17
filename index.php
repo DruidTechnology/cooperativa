@@ -62,13 +62,13 @@
 							</div>
 						</div>
 						
-						<div class="form-group">
+					<!--	<div class="form-group">
 							<div class="col-md-12 control">
 								<div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
 									No tiene una cuenta! <a href="registro.php">Registrate aquí</a>
 								</div>
 							</div>
-						</div>    
+						</div>  -->  
 					</form>
 					<?php echo resultBlock($errors); ?>
 				</div>                     

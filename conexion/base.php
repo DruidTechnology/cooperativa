@@ -124,7 +124,7 @@
         $gen = md5(uniqid(mt_rand(), false));
         $sqlICA ="INSERT INTO cuota(montoCuota) VALUES(5);";
         $sqlAlter = "ALTER TABLE `pago` ADD UNIQUE `unique_index`(`mespago`, `anniopago`, `id_afiliado`);";
-        $sqlTipo = "INSERT INTO tipo_usuario(tipo) VALUES('Administrador')";
+        $sqlTipo = "INSERT INTO tipo_usuario(tipo) VALUES('Administrador'),('Usuario Comun')";
         $sqlAdminUsu = "INSERT INTO usuarios(usuario, password,nombre,correo,activacion,token, id_tipo)
         VALUES('admin','$md5pass','AdministradorSACO','monterrosadelgado@gmail.com','1','$gen','1')";
         

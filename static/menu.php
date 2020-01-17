@@ -42,7 +42,7 @@
                         <li>
                             <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="icon-user-plus"></span> <span class="mini-click-non">Usuario Sistema</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Registar" href="#"><span class="mini-sub-pro">Registrar</span></a></li>
+                                <li><a title="Registar" href="registroUsu.php"><span class="mini-sub-pro">Registrar</span></a></li>
                                 <li><a title="Listado" href="#"><span class="mini-sub-pro">Listado</span></a></li>
                             </ul>
                         </li>
