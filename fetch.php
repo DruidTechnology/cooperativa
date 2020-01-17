@@ -69,6 +69,7 @@ include("conexion/conexion.php");
             $resultadoA = $conexion->query($sqlA);
             
             
+            
             if ($resultadoA->num_rows > 0) {
                 # code...
                 while($rows = $resultadoA->fetch_assoc()){
@@ -82,5 +83,120 @@ include("conexion/conexion.php");
                   
  
         }
+        if (isset($_GET['action']) && $_GET['action'] == 'tipo2') {
+            # code...
+            
+            $id_activacion_a = $_GET['id'];
+            
+            //$res = array();
+            
+            $sqlA = "SELECT a.monto as monto FROM credito a WHERE a.id=$id_activacion_a;";
+            //$sql = "SELECT * FROM afiliados";
+       //    echo $sqlA;
+            $resultadoA = $conexion->query($sqlA);
+            
+            
+            
+            if ($resultadoA->num_rows > 0) {
+                # code...
+                while($rows = $resultadoA->fetch_assoc()){
+                    echo $rows["monto"];
+                    //array_push($res,$row);
+                    
+                }
+                 
+            
+            }
+                  
+ 
+        }
+
+
+
+
+                
+        if (isset($_GET['action']) && $_GET['action'] == 'creditos') {
+            # code...
+            
+            $id_activacion_a = $_GET['id'];
+            $tipo = $_GET['tipo'];
+
+            
+            //$res = array();
+            
+            $sqlA = "SELECT a.id as id FROM credito a WHERE a.id_Afiliado=$id_activacion_a AND a.tipo=$tipo;";
+            //$sql = "SELECT * FROM afiliados";
+       //    echo $sqlA;
+            $resultadoA = $conexion->query($sqlA);
+            $array = array();
+            
+            
+            if ($resultadoA->num_rows > 0) {
+                # code...
+                while($rows = $resultadoA->fetch_assoc()){
+                   
+                    array_push($array,$rows['id']);
+                    
+                }
+                $row_json = json_encode($array);
+                echo $row_json;   
+                
+                 
+            
+            }
+                  
+ 
+        }
+
+        if (isset($_GET['action']) && $_GET['action'] == 'credito') {
+            # code...
+            $fecha = "";
+            $id_activacion_a = $_GET['id'];
+            
+            $lastpaymenyt = "SELECT MAX(STR_TO_DATE(CONCAT('15,',p.mespago, ',', p.anniopago),'%d,%M,%Y')) as g FROM pagocredito p LEFT JOIN credito c on c.id=p.id_credito WHERE c.id=$id_activacion_a;";
+            
+            if ($resultadoB = $conexion->query($lastpaymenyt)) {
+                # code...
+                if ($resultadoB->num_rows > 0) {
+                    while($rows = $resultadoB->fetch_assoc()){
+                        $fecha = $rows['g'];
+                    }
+                    # code...
+                }
+                
+            }
+            //$res = array();
+           $sqlA = "SELECT count(pc.id) as total,c.plazo,c.pagoMensual,c.fechaCredito FROM pagoCredito pc RIGHT JOIN credito c on c.id = pc.id_credito WHERE c.id=$id_activacion_a;";
+            //$sql = "SELECT * FROM afiliados";
+       //    echo $sqlA;
+            $resultadoA = $conexion->query($sqlA);
+            
+            $array = array();
+            if ($resultadoA->num_rows > 0) {
+                # code...
+                while($rows = $resultadoA->fetch_assoc()){
+                    $mesesapgar = $rows['plazo'] - $rows['total']  ;
+                    array_push($array,$mesesapgar);
+                    array_push($array,$rows['pagoMensual']);
+                    array_push($array,$rows['plazo']);
+                    array_push($array,$rows['fechaCredito']);
+
+                    
+                    array_push($array,$fecha);
+                    
+                    $row_json = json_encode($array);
+                    echo $row_json;   
+                    //array_push($res,$row);
+                    
+                }
+                 
+            
+            }
+                  
+ 
+        }
+        
+     
+        
                                        
 ?>

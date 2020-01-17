@@ -7,14 +7,22 @@
                                 </div>
                             </div>
                             <form action="/SACO/nuevoCredito.php" method="POST">
+                            
                                                 <?php
                                                 
+                                                $month = date('m');
+                                                $day = date('d');
+                                                $year = date('Y');
+
+                                                $today = $year . '-' . $month . '-' . $day;
+
                                                 $nombre_a = "";
                                                 $monto="";
                                                 $interes="";
                                                 $plazo="";
                                                 $fecha="";
                                                 $id_Afiliado="";
+                                                $tipo="";
 
                                                 if(isset($_POST['id_Afiliado'])){
                                                     $nombre_a=$_POST['nombre_a'];
@@ -22,10 +30,16 @@
                                                     $interes=$_POST['interes'];
                                                     $plazo=$_POST['meses'];
                                                     $fecha=$_POST['fechaActual'];
+                                                    $tipo=$_POST['tipo'];
                                                     $id_Afiliado=$_POST['id_Afiliado'];
-
+                                                   
                                                     //Arreglo para validacion
+                                                    echo $fecha;
+                                                    echo $today;
                                                     $campo1= array();
+                                                    if ($fecha!=$today) {
+                                                        array_push($campo1, "Combruebe su fecha.");
+                                                    }
                                                     if ($id_Afiliado == "") {
                                                         # code...
                                                         array_push($campo1, "Selecciona un afiliado.");
@@ -58,8 +72,8 @@
                                                         $calculo = $monto *($interes/100);
                                                         $sumaInteres = $calculo + $monto;
                                                         $pago = $sumaInteres/$plazo;
-                                                        $sqlG="INSERT INTO credito (fechaCredito,monto,tasaInteres,plazo,pagoMensual,id_Afiliado)
-                                                        VALUES('$fecha','$monto','$interes','$plazo','$pago','$id_Afiliado')";
+                                                        $sqlG="INSERT INTO credito (fechaCredito,monto,tasaInteres,plazo,pagoMensual,id_Afiliado,tipo)
+                                                        VALUES('$fecha','$monto','$interes','$plazo','$pago','$id_Afiliado','$tipo')";
                                                          if ($conexion->query($sqlG) === TRUE) {
                                                             echo"<div class='row'>";
                                                             echo"<div class='col-lg-12'>";
@@ -173,10 +187,40 @@
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <input type="hidden" id="id_Afiliado" name="id_Afiliado">
 
+
                                                                 <div class="form-group">
                                                                 <label>Fecha de Credito</label>
-                                                                <input  type="date" id="fechaActual" name="fechaActual" class="form-control" placeholder="Fecha de Nacimiento" disabled>
+                                                                
+                                                                <input type="date" value="<?php echo $today; ?>" class="form-control" id="fechaActual" name="fechaActual" readonly  >
+
+                                                                
                                                                 </div>
+                                                                <div class="form-group">
+                                                        <label>Tipo de Prestamo</label>
+                                                        <select class="form-control" name="tipo" id="tipo">
+                                                            <option value="none" selected="" disabled="">Seleccione una
+                                                                opcion</option>
+                                                                <?php 
+                                                                $sqltipos = "SELECT * FROM tipoCredito;";
+                                                                
+                                                                $resultadotipos=$conexion->query($sqltipos);
+                                                                while ($row2 = $resultadotipos->fetch_assoc()) {
+                                                                    ?>
+                                                                    <option value="<?php echo $row2['id']; ?>"  ><?php 
+                                                                    
+                                                                    echo strtoupper ( $row2['tipo'] )
+                                                                    ; ?></option>
+                                                             
+                                                            
+                                                                
+                                                                <?php
+                                                                   } 
+                                                              
+                                                            ?>
+                                                            
+                                            
+                                                        </select>
+                                                    </div>
 
                                                                 <div class="form-group">
                                                                 <div class="row">
@@ -296,6 +340,7 @@
                     var monto = parseFloat(document.getElementById('monto').value);
                     
                     
+                    
 
                         if (isNaN(monto) && isNaN(interes) && isNaN(meses)) {
                             total += 0;
@@ -303,12 +348,21 @@
 
                             var cal = monto *(interes/100);
                             var suma = cal + monto;
+                        
                             var total = suma/meses;
-                            
+                            if (isNaN(total)) {
+                                document.getElementById('total').innerHTML = "";
+                               
+                            }else{
+                                total = parseFloat(total).toFixed(2);    
+                                document.getElementById('total').innerHTML = total;
+                            }
+                                
+                        
                         }
 
 //alert(total);
-document.getElementById('total').innerHTML = total;
+
 
 }
                 </script>
