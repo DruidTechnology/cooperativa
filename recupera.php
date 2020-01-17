@@ -29,10 +29,8 @@
 				contrase&ntilde;a, visita la siguiente direcci&oacute;n: <a href='$url'>Cambia Contraseñ&ntilde;a</a>";
 
 				if(enviarEmail($email, $nombre, $asunto, $cuerpo)){
-					echo "Hemos enviado un correo electronico a las direccion 
+					$errors[]= "Hemos enviado un correo electronico a las direccion 
 					$email para restablecer tu password. <br/>";
-					echo "<a href='index.php'>Iniciar Sesion</a>";
-					exit;
 				}else{
 					$errors[]= "Error al enviar Email";
 				}
@@ -80,13 +78,13 @@
 								</div>
 							</div>
 							
-							<div class="form-group">
+							<!--<div class="form-group">
 								<div class="col-md-12 control">
 									<div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
 										No tiene una cuenta! <a href="registro.php">Registrate aquí</a>
 									</div>
 								</div>
-							</div>    
+							</div>   --> 
 						</form>
 						<?php echo resultBlock($errors); ?>
 					</div>                     

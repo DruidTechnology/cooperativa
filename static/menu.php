@@ -43,7 +43,7 @@
                             <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="icon-user-plus"></span> <span class="mini-click-non">Usuario Sistema</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Registar" href="registroUsu.php"><span class="mini-sub-pro">Registrar</span></a></li>
-                                <li><a title="Listado" href="#"><span class="mini-sub-pro">Listado</span></a></li>
+                                <li><a title="Listado" href="listadoBitacora.php"><span class="mini-sub-pro">Listado</span></a></li>
                             </ul>
                         </li>
                         <li>
@@ -51,14 +51,14 @@
                             <ul class="submenu-angle" aria-expanded="false">
                             <li><a title="Cambio de Usuario" href="#"><span class="mini-sub-pro">Cambio de Usuario</span></a></li>
                             <li><a title="Cambio Contraseña" href="#"><span class="mini-sub-pro">Cambio Contraseña</span></a></li>
-                            <li><a title="Listado de Usuario" href="#"><span class="mini-sub-pro">Listado de Usuario</span></a></li>
+                            <li><a title="Listado de Usuario" href="listadoUsuario.php"><span class="mini-sub-pro">Listado de Usuario</span></a></li>
                             </ul>
                         </li>
                         <li>
                             <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="icon-key"></span> <span class="mini-click-non">Seguridad</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Generar Backup" href="backupindex.php"><span class="mini-sub-pro">Generar Backup</span></a></li>
-                                <li><a title="Bitacora" href="#"><span class="mini-sub-pro">Bitacora</span></a></li>
+                                <li><a title="Bitacora" href="listadoBitacora.php"><span class="mini-sub-pro">Bitacora</span></a></li>
                             </ul>
                         </li>
                     </ul>

@@ -277,10 +277,13 @@
 
                                 }
                                 $sqlB = $sqlB . ";";
-                            
-                                $sqlP = "INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota) VALUES('$mesPago_p','$annioPago_p','$pagado_p','$id_insert',1);";  
+                                $usu = $rowUsu['nombre'];
+                                
+                                $sqlBitacora = "INSERT INTO Bitacora(Accion,usuario) VALUES('Registrar Afiliado','$usu');";
+                                $sqlP = "INSERT INTO pago(mesPago,annioPago,pagado,id_Afiliado,id_cuota) VALUES('$mesPago_p','$annioPago_p','$pagado_p','$id_insert',1);";
                                   
-                                if ($conexion->query($sqlB) === TRUE && $conexion->query($sqlP) === TRUE) {
+                                  
+                                if ($conexion->query($sqlB) === TRUE && $conexion->query($sqlP) === TRUE && $conexion->query($sqlBitacora) === TRUE) {
                                     # code...
                                     $nombre_a="";
                                     $apellido_a="";

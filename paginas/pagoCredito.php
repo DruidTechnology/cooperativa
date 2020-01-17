@@ -8,8 +8,10 @@
             # code...
             $id = $_GET['id'];
             $sql ="UPDATE afiliados SET estadoAfiliado = 0 WHERE id = $id";
+            $usu = $rowUsu['nombre'];
+            $sqlBitacora = "INSERT INTO Bitacora(Accion,usuario) VALUES('Registrar Afiliado','$usu');";
             
-            if ($conexion->query($sql) === TRUE) {
+            if ($conexion->query($sql) === TRUE && $conexion->query($sql) === $sqlBitacora) {
 
                 # code...
                 echo"<div class='row'>";

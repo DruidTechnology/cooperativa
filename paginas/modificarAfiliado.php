@@ -126,7 +126,10 @@ if ($resultado->num_rows > 0) {
                 VALUES('$nombre_a','$apellido_a','$dui_a','$nit_a','$fecha_a','$estadoCivil_a','$cargo_a','$sueldo_a','$direccion_a','$nacionalidad_a',
                 '$profesion_a','$contacto_a',1);";
 
-                if ($conexion->query($sql) === TRUE) {
+$usu = $rowUsu['nombre'];
+$sqlBitacora = "INSERT INTO Bitacora(Accion,usuario) VALUES('Registrar Afiliado','$usu');";
+
+                if ($conexion->query($sql) === TRUE && $conexion->query($sqlBitacora) === TRUE) {
                     # code...
                     $id_insert = $conexion->insert_id;
                     
