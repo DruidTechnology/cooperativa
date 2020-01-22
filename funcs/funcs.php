@@ -362,4 +362,18 @@
 			} else {
 			return false;		
 		}
-	}		
+	}
+	
+	function CambiarNombre($usuario, $user_id){
+		
+		global $mysqli;
+		
+		$stmt = $mysqli->prepare("UPDATE usuarios SET usuario = ? WHERE id = ?");
+		$stmt->bind_param('ss', $usuario, $user_id);
+		
+		if($stmt->execute()){
+			return true;
+			} else {
+			return false;		
+		}
+	}			
