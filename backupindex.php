@@ -6,7 +6,7 @@
 <div class="row">
 <div class="col-lg-12">
 <div class="payment-adress">
-<a href="php/Backup.php" class="btn btn-primary waves-effect waves-light">Realizar copia de seguridad</a>
+<a href="Backup.php" class="btn btn-primary waves-effect waves-light">Realizar copia de seguridad</a>
                                                 </div>
                                             </div>
                                         </div>
